@@ -32,6 +32,7 @@ print(a.size())
 # torch.Size([2, 3])
 ```
 ```python
+# 有点像reshape
 a.unsqueeze(0).size()
 # torch.Size([1, 2, 3])
 a.unsqueeze(1).size()
