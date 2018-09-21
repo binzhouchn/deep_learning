@@ -4,6 +4,7 @@
 
 [**2. unsqueeze函数**](#unsqueeze函数)
 
+[**3. squeeze函数**](#squeeze函数)
 
 ---
 
@@ -39,3 +40,18 @@ a.unsqueeze(2).size()
 # torch.Size([2, 3, 1])
 ```
 
+### squeeze函数
+
+```python
+import torch
+a = torch.Tensor([[1,2,3]])
+# tensor([[1., 2., 3.]])
+a.squeeze()
+# tensor([1., 2., 3.])
+a = torch.Tensor([1,2,3,4,5,6])
+a.view(2,3)
+# tensor([[1., 2., 3.],
+#        [4., 5., 6.]])
+a.squeeze()
+# tensor([1., 2., 3., 4., 5., 6.])
+```
