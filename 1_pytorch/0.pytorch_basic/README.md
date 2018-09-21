@@ -1,4 +1,4 @@
-## pytorch实用技巧
+# pytorch实用技巧
 
 [**1. view函数**](#view函数)
 
@@ -6,9 +6,11 @@
 
 [**3. squeeze函数**](#squeeze函数)
 
+[**4. pytorch自定义损失函数**](#pytorch自定义损失函数)
+
 ---
 
-### view函数
+## view函数
 
 ```python
 import torch as t
@@ -20,7 +22,7 @@ a.view(2,-1) # 行数为2行，-1表示列自动计算
 #         [ 3.,  4.,  5.]])
 ```
 
-### unsqueeze函数
+## unsqueeze函数
 
 ```python
 import torch as t
@@ -41,7 +43,7 @@ a.unsqueeze(2).size()
 # torch.Size([2, 3, 1])
 ```
 
-### squeeze函数
+## squeeze函数
 
 ```python
 import torch
@@ -55,4 +57,42 @@ a.view(2,3)
 #        [4., 5., 6.]])
 a.squeeze()
 # tensor([1., 2., 3., 4., 5., 6.])
+```
+
+## pytorch自定义损失函数
+
+![nwrmsle.png](pic/nwrmsle.png)
+
+```python
+# pytorch自定义损失函数 Normalized Weighted Root Mean Squared Logarithmic Error(NWRMSLE)
+# 这里y真实值需要提前进行log1p的操作
+from torch.functional import F
+
+class my_rmseloss(nn.Module):
+    
+    def __init__(self):
+        super(my_rmseloss, self).__init__()
+        return 
+    
+    def forward(self, input, target, sample_weights=None):
+        self._assert_no_grad(target)
+        f_revis = lambda a, b, w: ((a - b) ** 2) * w # 重写
+        return self._pointwise_loss(f_revis, torch._C._nn.mse_loss,
+                           input, target, sample_weights)
+    
+    # 重写_pointwise_loss
+    def _pointwise_loss(self, lambd, lambd_optimized, input, target, sample_weights):
+        if target.requires_grad:
+            d = lambd(input, target, sample_weights)
+            return torch.sqrt(torch.div(torch.sum(d), torch.sum(sample_weights)))
+        else:
+            if sample_weights is not None:
+                unrooted_res = torch.div(torch.sum(torch.mul(lambd_optimized(input, target),sample_weights)),torch.sum(sample_weights))
+                return torch.sqrt(unrooted_res)
+            return lambd_optimized(input, target, 1)
+    
+    def _assert_no_grad(self, tensor):
+        assert not tensor.requires_grad, \
+            "nn criterions don't compute the gradient w.r.t. targets - please " \
+            "mark these tensors as not requiring gradients"
 ```
