@@ -66,6 +66,7 @@ a.squeeze()
 ```python
 # pytorch自定义损失函数 Normalized Weighted Root Mean Squared Logarithmic Error(NWRMSLE)
 # 这里y真实值需要提前进行log1p的操作
+# 加入了sample_weights，和keras里model.fit(x,sample_weights)一样
 from torch.functional import F
 
 class my_rmseloss(nn.Module):
