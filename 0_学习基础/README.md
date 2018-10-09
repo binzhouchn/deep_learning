@@ -61,4 +61,5 @@
 
 参考网址：
 
-[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn)
+[DeepLearningBookQA_cn]
+(https://github.com/elviswf/DeepLearningBookQA_cn) or (https://nbviewer.jupyter.org/github/laobadao/Deep-Learning-Interview/blob/master/Deep%20Learning%20Interview.ipynb)
