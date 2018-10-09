@@ -10,6 +10,7 @@
 
 [**5. Dropout**](#dropout)
 
+[**深度学习面试准备网址**](#深度学习面试准备网址)
 
 
 ---
@@ -54,3 +55,10 @@
 
 （1）Dropout是深度学习领域比较常见的正则化方法<br>
 （2）训练时dropout，验证或测试时不要dropout
+
+
+---
+
+参考网址：
+
+[DeepLearningBookQA_cn](https://github.com/elviswf/DeepLearningBookQA_cn)
