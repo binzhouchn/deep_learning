@@ -97,3 +97,9 @@ class my_rmseloss(nn.Module):
             "nn criterions don't compute the gradient w.r.t. targets - please " \
             "mark these tensors as not requiring gradients"
 ```
+
+---
+
+参考网址：
+
+[pytorch中Liner、RNN、LSTM、RNN模型、输入和输出构造参数小结](https://blog.csdn.net/david0611/article/details/81090294)
