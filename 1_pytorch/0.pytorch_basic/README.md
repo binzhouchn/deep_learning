@@ -100,6 +100,36 @@ class my_rmseloss(nn.Module):
             "mark these tensors as not requiring gradients"
 ```
 
+### pytorch自定义矩阵w
+
+比如我在DigitCaps中定义了一个W的矩阵，想要这个矩阵可导，则用nn.Parameter包一下
+
+```python
+class DigitCaps(nn.Module):
+    def __init__(self, num_capsules=10, num_routes=32 * 40, in_channels=10, out_channels=16):
+        super(DigitCaps, self).__init__()
+
+        self.in_channels = in_channels
+        self.num_routes = num_routes
+        self.num_capsules = num_capsules
+
+        self.W = nn.Parameter(torch.randn(1, num_routes, num_capsules, out_channels, in_channels))
+
+    def forward(self, x):
+        batch_size = x.size(0)
+        x = torch.stack([x] * self.num_capsules, dim=2).unsqueeze(4)
+
+        W = torch.cat([self.W] * batch_size, dim=0)
+        u_hat = torch.matmul(W, x)
+```
+```python
+# 把上面的加载进优化器就行了
+dcaps = DigitCaps()
+optimizer = Adam(dcaps.parameters(),lr=0.001)
+```
+
+
+
 ---
 
 参考网址：
