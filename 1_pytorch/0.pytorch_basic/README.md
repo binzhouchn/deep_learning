@@ -8,6 +8,8 @@
 
 [**4. pytorch自定义损失函数**](#pytorch自定义损失函数)
 
+[**5. pytorch自定义矩阵W**](#pytorch自定义矩阵w)
+
 ---
 
 ## view函数
