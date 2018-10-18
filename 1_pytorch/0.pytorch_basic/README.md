@@ -129,6 +129,7 @@ dcaps = DigitCaps()
 optimizer = Adam(dcaps.parameters(),lr=0.001)
 ```
 
+[和Keras build里面的self.add_weight是一样的](https://keras-cn.readthedocs.io/en/latest/layers/writting_layer/)
 
 
 ---
