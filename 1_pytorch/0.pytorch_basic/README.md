@@ -113,7 +113,7 @@ class DigitCaps(nn.Module):
         self.num_routes = num_routes
         self.num_capsules = num_capsules
 
-        self.W = nn.Parameter(torch.randn(1, num_routes, num_capsules, out_channels, in_channels))
+        self.W = nn.Parameter(torch.randn(1, num_routes, num_capsules, out_channels, in_channels),requires_grad=True) # 可导
 
     def forward(self, x):
         batch_size = x.size(0)
