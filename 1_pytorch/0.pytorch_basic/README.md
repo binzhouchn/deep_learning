@@ -123,7 +123,8 @@ class DigitCaps(nn.Module):
         u_hat = torch.matmul(W, x)
 ```
 ```python
-# 把上面的加载进优化器就行了
+# 把上面的加载进优化器就行了，如果这个DigitCaps在其他类中被调用，则
+# 把最初始的那个main类加载入Adam就行
 dcaps = DigitCaps()
 optimizer = Adam(dcaps.parameters(),lr=0.001)
 ```
