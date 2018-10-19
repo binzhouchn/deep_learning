@@ -10,6 +10,8 @@
 
 [**5. pytorch自定义矩阵W**](#pytorch自定义矩阵w)
 
+[**6. 查看tensorflow或keras的张量值**](#查看tensorflow或keras的张量值)
+
 ---
 
 ## view函数
@@ -132,6 +134,25 @@ optimizer = Adam(dcaps.parameters(),lr=0.001)
 [和Keras build里面的self.add_weight是一样的](https://keras.io/zh/layers/writing-your-own-keras-layers/)
 
 [胶囊网络中会有，后期补充]( )
+
+### 查看tensorflow或keras的张量值
+
+```python
+from keras.layers import K
+x = K.random_normal(shape = (64,100,256))
+w = K.random_normal(shape = (1,256,160))
+res = K.conv1d(x,w)
+
+# run tf
+init=tf.global_variables_initializer() # 初始化（必须）
+with tf.Session() as sess:
+    sess.run(init)
+    cc = sess.run(x)
+    dd = sess.run(res)
+    print(cc)
+    print('------------------------------')
+    print(dd)
+```
 
 ---
 
