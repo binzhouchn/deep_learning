@@ -131,7 +131,7 @@ optimizer = Adam(dcaps.parameters(),lr=0.001)
 
 [和Keras build里面的self.add_weight是一样的](https://keras.io/zh/layers/writing-your-own-keras-layers/)
 
-[胶囊网络中会有，后期补充]()
+[胶囊网络中会有，后期补充]( )
 
 ---
 
