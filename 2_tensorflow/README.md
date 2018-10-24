@@ -38,4 +38,3 @@ Embedding(vocab_size + 1,
 [参考代码](https://github.com/keras-team/keras/blob/master/examples/pretrained_word_embeddings.py)
 
 ### 
-### 
