@@ -4,6 +4,7 @@
 
 [**2. 查看tensorflow或keras的张量值**](#查看tensorflow或keras的张量值)
 
+[**3. keras中加载预训练的embedding**](#keras中加载预训练的embedding)
 
 ### 查看tensorflow或keras的张量值
 
@@ -22,4 +23,15 @@ with tf.Session() as sess:
     print(cc)
     print('------------------------------')
     print(dd)
+```
+
+### keras中加载预训练的embedding
+
+```python
+from keras.initializers import Constant
+Embedding(vocab_size + 1,
+            EMBEDDING_DIM,
+            embeddings_initializer=Constant(embedding_matrix),
+            input_length=maxlen,
+            trainable=False)
 ```
