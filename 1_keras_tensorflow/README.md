@@ -6,6 +6,8 @@
 
 [**3. keras中加载预训练的embedding**](#keras中加载预训练的embedding)
 
+[**4. **]
+
 ### 查看tensorflow或keras的张量值
 
 ```python
