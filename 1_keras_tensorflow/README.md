@@ -1,42 +1,13 @@
-# tensorflow入门
+[pytorch官网](https://pytorch.org/)
 
-[**1. 吴恩达tensorflow入门代码(用tensorflow求导)**](1.tensorflow_andrewNg.ipynb)
+安装Pytorch会安装两个模块, 一个是torch, 一个是torchvision, <br>
+torch 是主模块, 用来搭建神经网络的；<br>
+torchvision 是辅模块, 有数据库, 还有一些已经训练好的神经网络可以直接用, 如VGG, AlexNet, ResNet<br>
 
-[**2. 查看tensorflow或keras的张量值**](#查看tensorflow或keras的张量值)
+# 目录
 
-[**3. keras中加载预训练的embedding**](#keras中加载预训练的embedding)
+[**0. pytorch_basic**](0_pytorch_basic)
 
-[**4. **]
+[**1. pytorch入门**](1_pytorch入门)
 
-### 查看tensorflow或keras的张量值
-
-```python
-from keras.layers import K
-x = K.random_normal(shape = (64,100,256))
-w = K.random_normal(shape = (1,256,160))
-res = K.conv1d(x,w)
-
-# run tf
-init=tf.global_variables_initializer() # 初始化（必须）
-with tf.Session() as sess:
-    sess.run(init)
-    cc = sess.run(x)
-    dd = sess.run(res)
-    print(cc)
-    print('------------------------------')
-    print(dd)
-```
-
-### keras中加载预训练的embedding
-
-```python
-from keras.initializers import Constant
-Embedding(vocab_size + 1,
-            EMBEDDING_DIM,
-            embeddings_initializer=Constant(embedding_matrix),
-            input_length=maxlen,
-            trainable=False)
-```
-[参考代码](https://github.com/keras-team/keras/blob/master/examples/pretrained_word_embeddings.py)
-
-### 
+[**2. pytorch进阶**](2_pytorch进阶)
