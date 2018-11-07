@@ -6,7 +6,7 @@
 
 [**3. keras中加载预训练的embedding**](#keras中加载预训练的embedding)
 
-[**4. **]
+[**4. tensorflow保存读取**](#tensorflow保存读取)
 
 ### 查看tensorflow或keras的张量值
 
@@ -39,4 +39,8 @@ Embedding(vocab_size + 1,
 ```
 [参考代码](https://github.com/keras-team/keras/blob/master/examples/pretrained_word_embeddings.py)
 
-### 
+### tensorflow保存读取
+
+[tensorflow Saver 保存读取](https://morvanzhou.github.io/tutorials/machine-learning/tensorflow/5-06-save/)
+
+
