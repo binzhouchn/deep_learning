@@ -48,7 +48,7 @@ test = copy.deepcopy(bow.doc2num[159571:])
 
 # 用keras构建textCNN模型 version1（这样写比较好一点）
 class TextCNN(object):
-    def __init__(self, maxlen, max_features, embedding_dims,
+    def __init__(self, maxlen, max_features, embedding_dim,
                  weights=None,
                  trainable=False,
                  class_num=1,
@@ -61,7 +61,7 @@ class TextCNN(object):
                  callbacks=None):
         self.maxlen = maxlen
         self.max_features = max_features
-        self.embedding_dims = embedding_dims
+        self.embedding_dim = embedding_dim
         self.weights = weights  # weight list
         self.trainable = trainable
         self.class_num = class_num
@@ -75,7 +75,7 @@ class TextCNN(object):
 
     def fit(self, x_train, y_train, x_val, y_val):
         input = Input((self.maxlen,))
-        embedding = Embedding(self.max_features, self.embedding_dims,
+        embedding = Embedding(self.max_features, self.embedding_dim,
                               input_length=self.maxlen,
                               weights=self.weights,
                               trainable=self.trainable)(input)
