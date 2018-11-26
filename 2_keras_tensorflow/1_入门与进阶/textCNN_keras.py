@@ -62,6 +62,7 @@ class TextCNN(object):
         self.maxlen = maxlen
         self.max_features = max_features
         self.embedding_dim = embedding_dim
+        self.filters = 128,
         self.weights = weights  # weight list
         self.trainable = trainable
         self.class_num = class_num
@@ -81,7 +82,7 @@ class TextCNN(object):
                               trainable=self.trainable)(input)
         convs = []
         for kernel_size in [3, 4, 5]:
-            c = Conv1D(128, kernel_size, activation='relu')(embedding)
+            c = Conv1D(self.filters, kernel_size, activation='relu')(embedding)
             c = GlobalMaxPooling1D()(c)
             convs.append(c)
         x = Concatenate()(convs)
