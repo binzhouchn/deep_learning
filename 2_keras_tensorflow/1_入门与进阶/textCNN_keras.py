@@ -21,7 +21,7 @@ epochs = 10
 comments = [['same', 'coffee', 'shop', 'my', 'memory', 'of', 'it', 'is'],[]]
 
 
-# 训练词向量
+# 训练词向量---------------------------------------
 w2v_model = Word2Vec(comments,size=embedding_dim, min_count=5, workers=10)
 
 # 构造embedding字典
@@ -35,17 +35,14 @@ for key, value in bow.word2idx.items():
     else:
         embedding_matrix[value] = [0] * embedding_dim
 
-# 构建数据集
+# 构建数据集-------------------------------------
 X = copy.deepcopy(bow.doc2num[:159571])
-
 # 训练集和验证集划分 4:1
 kf = KFold(n_splits=5)
 for train_idx, val_idx in kf.split(df.label):
     pass
-
 train_X, train_y = X[train_idx],  np.array(df.label)[train_idx]
 val_X, val_y = X[val_idx],  np.array(df.label)[val_idx]
-
 # 之前的comments数据是拼接起来的，159571行以后是测试集
 test = copy.deepcopy(bow.doc2num[159571:])
 
