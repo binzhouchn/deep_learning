@@ -10,7 +10,8 @@ from sklearn.metrics import roc_auc_score
 import gensim
 from gensim.models.word2vec import Word2Vec
 from keras import Input, Model
-from keras.layers import Embedding, Dense, Conv1D, GlobalMaxPooling1D, Concatenate, Dropout
+from keras.models import Sequential
+from keras.layers import Embedding, Dense, Conv1D, GlobalMaxPooling1D, Concatenate, Dropout, Activation
 from m1 import BOW
 
 maxlen = 100 # 每句话的固定长度(截断或者补全)
@@ -46,7 +47,7 @@ val_X, val_y = X[val_idx],  np.array(df.label)[val_idx]
 # 之前的comments数据是拼接起来的，159571行以后是测试集
 test = copy.deepcopy(bow.doc2num[159571:])
 
-# 用keras构建textCNN模型 version1（这样写比较好一点）
+# 用keras构建textCNN模型 version1（这样写比较好一点）-------------------
 class TextCNN(object):
     def __init__(self, maxlen, max_features, embedding_dim,
                  weights=None,
@@ -113,3 +114,44 @@ model = TextCNN(maxlen, embedding_matrix.shape[0], embedding_matrix.shape[1],
                 epochs=epochs)
 
 model.fit(train_X, train_y, val_X, val_y)
+
+# 用keras构建textCNN模型 version2------------------------------
+model = Sequential()
+# we start off with an efficient embedding layer which maps
+# our vocab indices into embedding_dims dimensions
+model.add(Embedding(embedding_matrix.shape[0],
+                    embedding_matrix.shape[1],
+                    input_length=maxlen,
+                    weights=[embedding_matrix],
+                    trainable=False))
+model.add(Dropout(0.2))
+
+# we add a Convolution1D, which will learn filters
+# word group filters of size filter_length:
+filters = 128
+kernel_size = 3
+hidden_dims = 250
+model.add(Conv1D(filters,
+                 kernel_size,
+                 padding='valid',
+                 activation='relu',
+                 strides=1))
+# we use max pooling:
+model.add(GlobalMaxPooling1D())
+
+# We add a vanilla hidden layer:
+model.add(Dense(hidden_dims))
+model.add(Dropout(0.2))
+model.add(Activation('relu'))
+
+# We project onto a single unit output layer, and squash it with a sigmoid:
+model.add(Dense(1))
+model.add(Activation('sigmoid'))
+
+model.compile(loss='binary_crossentropy',
+              optimizer='adam',
+              metrics=['accuracy'])
+model.fit(train_X, train_y,
+          batch_size=batch_size,
+          epochs=epochs,
+          validation_data=(val_X, val_y))
