@@ -1,5 +1,7 @@
 # capsnet详解
 
+[原论文](https://arxiv.org/pdf/1710.09829.pdf)
+
 [先读懂CapsNet架构然后用TensorFlow实现：全面解析Hinton提出的Capsule](https://www.jiqizhixin.com/articles/2017-11-05)
 
 
