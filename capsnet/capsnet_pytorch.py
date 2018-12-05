@@ -230,6 +230,7 @@ if __name__ == '__main__':
                 output, probs = model(data, target)
                 reconstruction_loss = F.mse_loss(output, data.view(-1, 784))
                 margin_loss = loss_fn(probs, target)
+                # 如果reconstruction为True，则loss由两部分组成margin_loss和reconstruction_loss
                 loss = reconstruction_alpha * reconstruction_loss + margin_loss
             else:
                 output, probs = model(data)
