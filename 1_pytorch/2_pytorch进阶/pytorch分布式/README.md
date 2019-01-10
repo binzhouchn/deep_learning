@@ -10,4 +10,4 @@
 参考网址：
 
 [Pytorch--分布式训练(上)](https://blog.csdn.net/qq_20791919/article/details/79057648)<br>
-[]()
+[pytorch 多GPU训练](https://blog.csdn.net/daniaokuye/article/details/79110365)<br>
