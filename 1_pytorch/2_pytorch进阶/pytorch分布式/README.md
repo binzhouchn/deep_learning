@@ -3,3 +3,11 @@
 [pytorch多个进程模拟集群的分布式部署 MNIST demo](pytorch多个进程模拟集群的分布式部署.ipynb)
 
 
+
+
+
+
+参考网址：
+
+[Pytorch--分布式训练(上)](https://blog.csdn.net/qq_20791919/article/details/79057648)<br>
+[]()
