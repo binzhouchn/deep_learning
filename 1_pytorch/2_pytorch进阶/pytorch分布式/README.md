@@ -1,5 +1,6 @@
 # pytorch分布式
 
+MNIST数据集格式 data/processed/training.pt, test.pt<br> 
 [pytorch多个进程模拟集群的分布式部署 MNIST demo](pytorch多个进程模拟集群的分布式部署.ipynb)
 
 [pytorch多个进程模拟集群的分布式部署textcnn多分类(cpu版)](pytorch_distributed_textcnn_cpu.ipynb)
