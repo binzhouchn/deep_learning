@@ -8,6 +8,8 @@
 
 [**4. 用pytorch构建一个GAN神经网络**](#用pytorch构建一个gan神经网络)
 
+[**5. pytorch分布式**](pytorch分布式)
+
 ---
 
 
