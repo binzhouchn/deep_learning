@@ -7,12 +7,8 @@ torchvision 是辅模块, 有数据库, 还有一些已经训练好的神经网�
 
 # 目录
 
-[**0. pytorch_basic**](0_pytorch_basic)
+[**1. Pytorch_Basic**](1_pytorch_basic)
 
-[**1. pytorch入门**](1_pytorch入门)
+[**2. Pytorch Intro**](2_pytorch_intro)
 
-[**2. pytorch进阶**](2_pytorch进阶)
-
----
-
-[**capsnet**](capsnet)
+[**3. Pytorch Demos**](3_pytorch_demos)
