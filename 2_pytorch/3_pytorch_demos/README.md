@@ -10,6 +10,8 @@
 
 [**5. pytorch分布式**](pytorch分布式)
 
+[**6. practical-pytorch**](https://github.com/binzhouchn/practical-pytorch)
+
 ---
 
 
