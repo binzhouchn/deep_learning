@@ -1,11 +1,11 @@
 # 深度学习
 
-[**0. 学习基础**](0_学习基础)
+[**1. DL basic**](1_DL_basic)
 
-[**1. pytorch**](1_pytorch)
+[**1. Pytorch**](2_pytorch)
 
-[**2. keras and tensorflow**](2_keras_tensorflow)
+[**2. Keras and Tensorflow**](3_keras_tensorflow)
 
 ---
 
-[胶囊网络pytorch实现](capsnet)
+[CapsNet with pytorch](capsnet)
