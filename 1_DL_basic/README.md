@@ -58,6 +58,10 @@
 （1）Dropout是深度学习领域比较常见的正则化方法<br>
 （2）训练时dropout，验证或测试时不要dropout
 
+dropout为什么能防止过拟合[本质解释]：<br>
+1. dropout可以使网络稀疏，减少参数之间的相互依赖关系<br>
+2. [本质]每次dropout会得到不同的模型，相当于多模型结果取平均，从而降低方差，防止过拟合<br>
+
 ## attention机制
 
 Attention的出现就是为了两个目的：<br>
