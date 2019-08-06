@@ -1,12 +1,8 @@
 # 深度学习
 
-[**1. DL basic**](1_DL_basic)
+[**1. dl basic**](1_dl_basic)
 
-[**2. Pytorch**](2_pytorch)
+[**2. Tensorflow**](2_tensorflow)
 
-[**3. Keras and Tensorflow**](3_keras_tensorflow)
+[**3. Pytorch**](3_pytorch)
 
----
-
-[CapsNet with pytorch](capsnet)
-  
