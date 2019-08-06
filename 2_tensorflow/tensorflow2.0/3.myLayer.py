@@ -3,6 +3,7 @@
 # Author: zhoubin
 # Date: 20190806
 # 用tf.keras构建自己的网络层
+# 网址：https://blog.csdn.net/qq_31456593/article/details/88605387
 
 # 1. original
 class MyLayer(layers.Layer):
