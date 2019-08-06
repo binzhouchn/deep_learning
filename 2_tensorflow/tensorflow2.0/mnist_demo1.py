@@ -1,5 +1,5 @@
 # coding: utf-8
-# File: mnist_demo.py
+# File: mnist_demo1.py
 # Author: zhoubin
 # Date: 20190806
 
