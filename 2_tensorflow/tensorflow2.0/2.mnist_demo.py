@@ -2,7 +2,12 @@
 # File: mnist_demo2.py
 # Author: zhoubin
 # Date: 20190806
-# 自己构造训练和验证循环，和torch很像
+
+'''
+ 1. 自己构造训练和验证循环，和torch很像
+ 2. with tf.GradientTape() as tape
+'''
+
 
 import os
 import tensorflow as tf
