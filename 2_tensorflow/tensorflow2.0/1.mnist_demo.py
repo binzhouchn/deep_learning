@@ -28,6 +28,7 @@ def get_compiled_model():
     return model
 
 model = get_compiled_model()
+# 这步很重要，数据先载入显存不然cpu和gpu之间转换程序会变得更慢
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 train_dataset = train_dataset.shuffle(buffer_size=1024).batch(64)
 
