@@ -7,12 +7,22 @@
 
 [**2. tensorflow2.0**](tensorflow2.0)
 
+## tensorflow2.0笔记
 
-## tensorflow2.0
+[**mnist_demo**](#mnist_demo)
 
- - mnist demo
- - 用tf.keras构建自己的网络层
- - 构建一个变分自编码器（VAE）
- - 
+[**用tf.keras构建自己的网络层**](#用tf_keras构建自己的网络层)
+
+---
+
+### mnist_demo
+
+见同级目录代码
+
+### 用tf_keras构建自己的网络层
+
+见同级目录代码
+
+ 
 
 
