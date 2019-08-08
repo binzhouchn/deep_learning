@@ -19,6 +19,8 @@
 
 [**结构化数据分类(一般csv文件数据特征处理)**](#结构化数据分类)
 
+[**mlp及深度学习常见技巧**](#mlp及深度学习常见技巧)
+
 
 ### mnist_demo
 
@@ -64,4 +66,9 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 见代码tensorflow2.0/5.csv_binary_classify.py
 
-###
+### mlp及深度学习常见技巧
+
+[以mlp为基础模型，然后介绍一些深度学习常见技巧， 如：
+权重初始化， 激活函数， 优化器， 批规范化， dropout，模型集成](https://blog.csdn.net/qq_31456593/article/details/88915982)
+
+### 
