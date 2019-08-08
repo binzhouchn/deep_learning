@@ -55,4 +55,3 @@ new_prediction = new_model.predict(x_test)
 np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结果一样
 ```
 
-
