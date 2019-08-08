@@ -5,6 +5,7 @@
 # 使用低级api训练（非tf.keras）
 
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 ###################1. 定义模型和损失函数###################
 class Model(object):
