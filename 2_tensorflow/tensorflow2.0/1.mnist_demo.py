@@ -12,9 +12,9 @@ from tensorflow.keras import layers
 # 指定用哪块GPU
 os.environ['CUDA_VISIBLE_DEVICES'] = '2'
 
-(x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data() # 把mnist.npz放到~/.keras/datasets下
+(x_train, y_train), (x_val, y_val) = keras.datasets.mnist.load_data() # 把mnist.npz放到~/.keras/datasets下
 x_train = x_train.reshape(60000, 784).astype('float32') /255
-x_test = x_test.reshape(10000, 784).astype('float32') /255
+x_val = x_val.reshape(10000, 784).astype('float32') /255
 
 def get_compiled_model():
     inputs = keras.Input(shape=(784,), name='mnist_input')
@@ -32,7 +32,7 @@ model = get_compiled_model()
 train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train))
 train_dataset = train_dataset.shuffle(buffer_size=1024).batch(64)
 
-val_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test))
+val_dataset = tf.data.Dataset.from_tensor_slices((x_val, y_val))
 val_dataset = val_dataset.batch(64)
 
 # model.fit(train_dataset, epochs=3)
