@@ -59,7 +59,8 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 ### 结构化数据分类
 
-[参考链接](https://blog.csdn.net/qq_31456593/article/details/88777343)
+[分类](https://blog.csdn.net/qq_31456593/article/details/88777343)<br>
+[回归](https://blog.csdn.net/qq_31456593/article/details/88778647)<br>
 
 见代码tensorflow2.0/5.csv_binary_classify.py
 
