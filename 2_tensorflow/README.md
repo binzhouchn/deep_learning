@@ -61,4 +61,6 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 [参考链接](https://blog.csdn.net/qq_31456593/article/details/88777343)
 
+见代码tensorflow2.0/5.csv_binary_classify.py
+
 ###
