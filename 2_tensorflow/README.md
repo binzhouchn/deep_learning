@@ -17,6 +17,8 @@
 
 [**保持序列模型和函数模型**](#保持序列模型和函数模型)
 
+[**结构化数据分类(一般csv文件数据特征处理)**](#结构化数据分类)
+
 
 ### mnist_demo
 
@@ -55,3 +57,8 @@ new_prediction = new_model.predict(x_test)
 np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结果一样
 ```
 
+### 结构化数据分类
+
+[参考链接](https://blog.csdn.net/qq_31456593/article/details/88777343)
+
+###
