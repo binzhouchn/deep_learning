@@ -76,3 +76,7 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 ### 使用低级api训练
 
 使用Tensor， Variable和GradientTape这些简单的要是，就可以构建一个简单的模型。步骤如下：
+
+[链接](https://blog.csdn.net/qq_31456593/article/details/95040964)
+
+见代码tensorflow2.0/6.low_api_demo.py
