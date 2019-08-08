@@ -30,7 +30,7 @@ noise = tf.random.normal(shape=[num])
 # 构造数据
 outputs = TRUE_W * inputs + TRUE_b + noise
 
-###################3. 训练###################
+###################3. 训练模型及更新参数###################
 def train(model, inputs, outputs, learning_rate):
     # 记录loss计算过程
     with tf.GradientTape() as t: #自动求导
