@@ -56,5 +56,3 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 ```
 
 
-
-
