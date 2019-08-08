@@ -17,3 +17,4 @@ class Model(object):
         return self.W * x + self.b
 def loss(predicted_y, true_y):
     return tf.reduce_mean(tf.square(predicted_y - true_y))
+
