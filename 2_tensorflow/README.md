@@ -88,7 +88,7 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 [链接](https://blog.csdn.net/qq_31456593/article/details/88991068)
 
-见代码tensorflow2.0/
+见代码tensorflow2.0/002-DCGAN.ipynb
 
 ### Transformer
 
