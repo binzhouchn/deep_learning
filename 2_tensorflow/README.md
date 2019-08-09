@@ -85,3 +85,5 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 见代码tensorflow2.0/6.low_api_demo.py
 
 ### Transformer
+
+[这篇讲的确实详细非常好](https://blog.csdn.net/qq_31456593/article/details/89923913)
