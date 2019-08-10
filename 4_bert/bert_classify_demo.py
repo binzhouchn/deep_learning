@@ -98,4 +98,12 @@ tokenizer = tokenization.FullTokenizer(vocab_file=vocab_file_path, do_lower_case
 此方法添加了BERT用于识别句子开始和结束的特殊“CLS”和“SEP”标记。它还为每个输入添加“index”和“segment”标记。
 因此根据BERT格式化输入的所有工作都由此函数完成。
 '''
+# label_list is the list of labels, i.e. True, False or 0, 1 or 'dog', 'cat'
+label_list = [0, 1]
+# We'll set sequences to be at most 128 tokens long.
+MAX_SEQ_LENGTH = 128
+# Convert our train and test features to InputFeatures that BERT understands.
+train_features = bert.run_classifier.convert_examples_to_features(train_InputExamples, label_list, MAX_SEQ_LENGTH, tokenizer)
+test_features = bert.run_classifier.convert_examples_to_features(test_InputExamples, label_list, MAX_SEQ_LENGTH, tokenizer)
 
+#########################3. Creating a model#########################
