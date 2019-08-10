@@ -90,4 +90,12 @@ tokenizer = run_classifier_with_tfhub.create_tokenizer_from_hub_module(BERT_MODE
 BERT_VOCAB= 'uncased_L-12_H-768_A-12/vocab.txt'
 BERT_INIT_CHKPNT = 'uncased_L-12_H-768_A-12/bert_model.ckpt'
 BERT_CONFIG = 'uncased_L-12_H-768_A-12/bert_config.json'
+tokenization.validate_case_matches_checkpoint(True, BERT_INIT_CHKPNT)
+tokenizer = tokenization.FullTokenizer(vocab_file=vocab_file_path, do_lower_case=True)
+
+'''
+使用tokenizer，将convert_examples_to_features 在示例上调用方法将它们转换为BERT理解的功能。
+此方法添加了BERT用于识别句子开始和结束的特殊“CLS”和“SEP”标记。它还为每个输入添加“index”和“segment”标记。
+因此根据BERT格式化输入的所有工作都由此函数完成。
+'''
 
