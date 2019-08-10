@@ -67,3 +67,15 @@ test_InputExamples = test.apply(lambda x: InputExample(guid=None,
                                                            text_a = x['sentence'],
                                                            text_b = None,
                                                            label = x['label']), axis = 1)
+'''
+有两种方法可以下载和使用预先训练的BERT模型：
+1.直接使用tensorflow-hub：
+以下预训练模型可供选择。
+    BERT-Base, Uncased：12层，768隐藏，12头，110M参数
+    BERT-Large, Uncased：24层，1024个隐藏，16个头，340M参数
+    BERT-Base, Cased：12层，768隐藏，12头，110M参数
+    BERT-Large, Cased：24层，1024个隐藏，16个头，340M参数
+    BERT-Base, Multilingual Case：104种语言，12层，768隐藏，12头，110M参数
+    BERT-Base, Chinese：中文简体和繁体，12层，768隐藏，12头，110M参数
+
+'''
