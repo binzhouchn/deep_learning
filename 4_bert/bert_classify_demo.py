@@ -14,3 +14,14 @@ from bert import run_classifier
 from bert import optimization
 from bert import tokenization
 
+# train, test数据如下，以下展示的是train.sample.head()
+'''
+                           sentence	                    	  label
+19977	"Proximity" tells of a convict (Lowe) who thin...       0
+17485	If you can believe it, *another* group of teen...	    0
+20116	Well, what can I say having just watched this ...	    1
+7347	Strictly a routine, by-the-numbers western (di...	    0
+5362	In his 1966 film "Blow Up", Antonioni had his ...       0
+'''
+
+
