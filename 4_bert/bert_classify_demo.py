@@ -107,3 +107,13 @@ train_features = bert.run_classifier.convert_examples_to_features(train_InputExa
 test_features = bert.run_classifier.convert_examples_to_features(test_InputExamples, label_list, MAX_SEQ_LENGTH, tokenizer)
 
 #########################3. Creating a model#########################
+# 参数准备(根据任务调整)
+BATCH_SIZE = 32
+LEARNING_RATE = 2e-5
+NUM_TRAIN_EPOCHS = 1.0
+# Warmup is a period of time where hte learning rate
+# is small and gradually increases--usually helps training.
+WARMUP_PROPORTION = 0.1
+# Model configs
+SAVE_CHECKPOINTS_STEPS = 1000
+SAVE_SUMMARY_STEPS = 500
