@@ -120,3 +120,13 @@ SAVE_SUMMARY_STEPS = 500
 # Compute # train and warmup steps from batch size
 num_train_steps = int(len(train) / BATCH_SIZE * NUM_TRAIN_EPOCHS)
 num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
+
+# 1
+# 根据之前的train_features直接生成train_input_fn
+train_input_fn = bert.run_classifier.input_fn_builder(
+    features=train_features,
+    seq_length=MAX_SEQ_LENGTH,
+    is_training=True,
+    drop_remainder=True)
+# 2
+# 也可以把之前生成的train_features先存成文件，然后用bert.run_classifier.file_based_input_fn_builder读取
