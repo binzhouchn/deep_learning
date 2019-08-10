@@ -117,3 +117,6 @@ WARMUP_PROPORTION = 0.1
 # Model configs
 SAVE_CHECKPOINTS_STEPS = 1000
 SAVE_SUMMARY_STEPS = 500
+# Compute # train and warmup steps from batch size
+num_train_steps = int(len(train) / BATCH_SIZE * NUM_TRAIN_EPOCHS)
+num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
