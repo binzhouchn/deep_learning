@@ -13,6 +13,7 @@ import bert
 from bert import run_classifier
 from bert import optimization
 from bert import tokenization
+from bert import run_classifier_with_tfhub
 
 #########################1. 数据读取#########################
 
@@ -67,8 +68,9 @@ test_InputExamples = test.apply(lambda x: InputExample(guid=None,
                                                            text_a = x['sentence'],
                                                            text_b = None,
                                                            label = x['label']), axis = 1)
+
+# 有两种方法可以下载和使用预先训练的BERT模型：
 '''
-有两种方法可以下载和使用预先训练的BERT模型：
 1.直接使用tensorflow-hub：
 以下预训练模型可供选择。
     BERT-Base, Uncased：12层，768隐藏，12头，110M参数
@@ -77,5 +79,7 @@ test_InputExamples = test.apply(lambda x: InputExample(guid=None,
     BERT-Large, Cased：24层，1024个隐藏，16个头，340M参数
     BERT-Base, Multilingual Case：104种语言，12层，768隐藏，12头，110M参数
     BERT-Base, Chinese：中文简体和繁体，12层，768隐藏，12头，110M参数
-
+将使用基本型号：'uncased_L-12_H-768_A-12'
 '''
+BERT_MODEL_HUB = 'https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1'
+tokenizer = run_classifier_with_tfhub.create_tokenizer_from_hub_module(BERT_MODEL_HUB)
