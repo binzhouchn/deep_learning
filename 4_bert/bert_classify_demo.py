@@ -124,9 +124,20 @@ num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
 # 1
 # 根据之前的train_features直接生成train_input_fn
 train_input_fn = bert.run_classifier.input_fn_builder(
-    features=train_features,
-    seq_length=MAX_SEQ_LENGTH,
-    is_training=True,
-    drop_remainder=True)
+                                                    features=train_features,
+                                                    seq_length=MAX_SEQ_LENGTH,
+                                                    is_training=True,
+                                                    drop_remainder=True)
 # 2
 # 也可以把之前生成的train_features先存成文件，然后用bert.run_classifier.file_based_input_fn_builder读取
+train_file = os.path.join('data', "train.tf_record")
+#filename = Path(train_file)
+if not os.path.exists(train_file):
+    open(train_file, 'w').close()
+bert.run_classifier.file_based_convert_examples_to_features(train_features, MAX_SEQ_LENGTH, tokenizer, train_file)
+
+train_input_fn = bert.run_classifier.file_based_input_fn_builder(
+                                                                input_file=train_file,
+                                                                seq_length=MAX_SEQ_LENGTH,
+                                                                is_training=True,
+                                                                drop_remainder=True)
