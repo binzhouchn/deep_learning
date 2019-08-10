@@ -71,7 +71,7 @@ test_InputExamples = test.apply(lambda x: InputExample(guid=None,
 
 # 有两种方法可以下载和使用预先训练的BERT模型：
 '''
-1.直接使用tensorflow-hub：
+1.直接使用tensorflow-hub:
 以下预训练模型可供选择。
     BERT-Base, Uncased：12层，768隐藏，12头，110M参数
     BERT-Large, Uncased：24层，1024个隐藏，16个头，340M参数
@@ -83,3 +83,11 @@ test_InputExamples = test.apply(lambda x: InputExample(guid=None,
 '''
 BERT_MODEL_HUB = 'https://tfhub.dev/google/bert_uncased_L-12_H-768_A-12/1'
 tokenizer = run_classifier_with_tfhub.create_tokenizer_from_hub_module(BERT_MODEL_HUB)
+'''
+2.手动下载BERT模型文件：下载并保存到目录中并解压缩:
+当下载BERT-Base, Uncased,这些有3个重要文件
+'''
+BERT_VOCAB= 'uncased_L-12_H-768_A-12/vocab.txt'
+BERT_INIT_CHKPNT = 'uncased_L-12_H-768_A-12/bert_model.ckpt'
+BERT_CONFIG = 'uncased_L-12_H-768_A-12/bert_config.json'
+
