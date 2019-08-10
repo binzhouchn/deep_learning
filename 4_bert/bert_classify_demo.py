@@ -14,6 +14,8 @@ from bert import run_classifier
 from bert import optimization
 from bert import tokenization
 
+#########################1. 数据读取#########################
+
 # train, test数据如下，以下展示的是train.sample.head()
 '''
                            sentence	                    	  label
@@ -24,4 +26,4 @@ from bert import tokenization
 5362	In his 1966 film "Blow Up", Antonioni had his ...       0
 '''
 
-
+#########################2. Data Preprocessing#########################
