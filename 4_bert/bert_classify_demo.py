@@ -174,3 +174,4 @@ estimator = tf.estimator.Estimator(
   config=run_config,
   params={"batch_size": BATCH_SIZE})
 
+## 上面这样构建会报错，有问题
