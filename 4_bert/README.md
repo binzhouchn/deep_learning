@@ -28,4 +28,8 @@ python run_classifier.py --task_name=cola --do_train=true --do_eval=true --do_pr
 
 ### bert_DIY
 
+自定义Processor，继承DataProcessor<br>
+修改input_fn_builder<br>
+修改model_fn_builder和里面的create_model，其中create_model中output_layer后面可以自己接其他的层比如CRF层然后再改一下loss的计算方式或者不改<br>
+bert create_model中最后一层其实就是Dense层和log_loss，我们可以直接用封装好的Dense不需要像源码自己写
 
