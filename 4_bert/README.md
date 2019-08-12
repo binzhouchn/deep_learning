@@ -21,6 +21,16 @@
 python run_classifier.py --task_name=cola --do_train=true --do_eval=true --do_predict=true --data_dir=/home/zhoubin/bert/data/ --vocab_file=/home/zhoubin/bert/uncased_L-12_H-768_A-12/vocab.txt --bert_config_file=/home/zhoubin/bert/uncased_L-12_H-768_A-12/bert_config.json --init_checkpoint=/home/zhoubin/bert/uncased_L-12_H-768_A-12/bert_model.ckpt --max_seq_length=128 --train_batch_size=32 --learning_rate=2e-5 --num_train_epochs=5.0 --output_dir=/home/zhoubin/bert/output --do_lower_case=True
 ```
 
+新生成的三个模型文件<br>
+```shell
+model.ckpt-781.data-00000-of-00001
+model.ckpt-781.index
+model.ckpt-781.meta
+```
+
+预测<br>
+
+
 ### bert跑中文任务
 
 
