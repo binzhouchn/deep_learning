@@ -38,6 +38,8 @@ model.ckpt-781.meta
 
 ### bert_DIY
 
+搞清楚run_classifier.py文件
+
 自定义Processor，继承DataProcessor<br>
 修改input_fn_builder<br>
 修改model_fn_builder和里面的create_model，其中create_model中output_layer后面可以自己接其他的层比如CRF层然后再改一下loss的计算方式或者不改<br>
