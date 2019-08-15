@@ -2,9 +2,9 @@
 
 [**1. dl basic**](1_dl_basic)
 
-[**2. Pytorch**](2_pytorch)
+[**2. pytorch**](2_pytorch)
 
-[**3. Tensorflow**](3_tensorflow)
+[**3. tensorflow**](3_tensorflow)
 
 [**4. bert**](4_bert)
 
