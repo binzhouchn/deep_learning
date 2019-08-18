@@ -16,7 +16,11 @@
 
 ### bert网址
 
-[github地址](https://github.com/google-research/bert)<br>
+[github地址 tf版](https://github.com/google-research/bert)<br>
+[github地址 bert-as-service](https://github.com/hanxiao/bert-as-service)<br>
+[github地址 pytorch版](https://github.com/codertimo/BERT-pytorch)<br>
+
+[BERT之'测试数据集描述'](https://blog.csdn.net/shuibuzhaodeshiren/article/details/87743286)
 
 ### bert相关数据集下载
 
