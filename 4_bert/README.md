@@ -1,8 +1,8 @@
 # BERT笔记
 
-[**bert网址**](#bert网址)
+[**1. bert网址**](#bert网址)
 
-[**bert相关数据集下载**](#bert相关数据集下载)
+[**2. bert相关数据集下载**](#bert相关数据集下载)
 
 [**使用BERT和TensorFlow构建文本分类器**](#使用bert和tensorflow构建文本分类器)
 
