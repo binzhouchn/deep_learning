@@ -16,11 +16,18 @@
 
 ### bert网址
 
+bert论文<br>
+[BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805)
+[图解BERT模型：从零开始构建BERT](https://cloud.tencent.com/developer/article/1389555)<br>
+
+bert代码实现<br>
 [github地址 tf版](https://github.com/google-research/bert)<br>
 [github地址 bert-as-service](https://github.com/hanxiao/bert-as-service)<br>
 [github地址 pytorch版](https://github.com/codertimo/BERT-pytorch)<br>
 
+bert测试数据集<br>
 [BERT之'测试数据集描述'](https://blog.csdn.net/shuibuzhaodeshiren/article/details/87743286)
+[预训练模型测试数据集PaddlePaddle](https://github.com/PaddlePaddle/ERNIE/blob/develop/README.zh.md#%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD)
 
 ### bert相关数据集下载
 
