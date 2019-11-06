@@ -97,4 +97,3 @@ bert create_model中最后一层其实就是Dense层和log_loss，我们可以�
 
 代码<br>
 [pretrained_xlnet](https://github.com/ymcui/Chinese-PreTrained-XLNet)<br>
-
