@@ -54,3 +54,4 @@
 [原文链接地址](https://github.com/binzhouchn/pytorch-book/tree/master/chapter7-GAN%E7%94%9F%E6%88%90%E5%8A%A8%E6%BC%AB%E5%A4%B4%E5%83%8F)
 
 [GAN生成动漫头像demo](gan_dongman_demo)
+
