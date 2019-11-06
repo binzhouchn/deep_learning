@@ -2,17 +2,19 @@
 
 [**1. bert网址**](#bert网址)
 
-[**2. bert相关数据集下载**](#bert相关数据集下载)
+[**2. bert模型下载(pytorch版)**](#bert模型下载)
 
-[**3. 使用BERT和TensorFlow构建文本分类器**](#使用bert和tensorflow构建文本分类器)
+[**3. bert相关数据集下载**](#bert相关数据集下载)
 
-[**4. bert跑中文任务**](#bert跑中文任务)
+[**4. 使用BERT和TensorFlow构建文本分类器**](#使用bert和tensorflow构建文本分类器)
 
-[**5. bert DIY**](#bert_diy)
+[**5. bert跑中文任务**](#bert跑中文任务)
 
-[**6. 遇到的问题**](#遇到的问题)
+[**6. bert DIY**](#bert_diy)
 
-[**7. XLNET相关**](#xlnet相关)
+[**7. 遇到的问题**](#遇到的问题)
+
+[**8. XLNET相关**](#xlnet相关)
 
 ---
 
@@ -30,6 +32,10 @@ bert代码实现<br>
 bert测试数据集<br>
 [BERT之'测试数据集描述'](https://blog.csdn.net/shuibuzhaodeshiren/article/details/87743286)<br>
 [预训练模型测试数据集PaddlePaddle](https://github.com/PaddlePaddle/ERNIE/blob/develop/README.zh.md#%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD)<br>
+
+### bert模型下载
+
+https://docs.qq.com/sheet/DVnpkTnF6VW9UeXdh?c=C4A0A0&tab=BB08J2
 
 ### bert相关数据集下载
 
