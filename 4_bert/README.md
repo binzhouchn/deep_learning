@@ -149,7 +149,30 @@ python3 run_classifier.py   \
 # 具体任务可见/home/zhoubin/learning/fastNLP/学习/zen/zen_classfication.ipynb
 
 # xlnet
-
+XLNET_DIR=~/learning/all_bert/car-forum-customer/Chinese-PreTrained-XLNet/models
+MODEL_DIR=~/learning/all_bert/car-forum-customer/Chinese-PreTrained-XLNet/save
+DATA_DIR=~/learning/all_bert/car-forum-customer/Chinese-PreTrained-XLNet/src/tfrecords
+RAW_DIR=~/learning/all_bert/car-forum-customer/data
+python -u run_classifier.py \
+      --spiece_model_file=~/learning/all_bert/car-forum-customer/Chinese-PreTrained-XLNet/src/spiece.model \
+      --model_config_path=${XLNET_DIR}/xlnet_config.json \
+      --init_checkpoint=${XLNET_DIR}/xlnet_model.ckpt \
+      --task_name=csc \
+      --do_train=True \
+      --do_eval=True \
+      --eval_all_ckpt=False \
+      --uncased=False \
+      --data_dir=${RAW_DIR} \
+      --output_dir=${DATA_DIR} \
+      --model_dir=${MODEL_DIR} \
+      --train_batch_size=48 \
+      --eval_batch_size=48 \
+      --num_hosts=1 \
+      --num_core_per_host=8 \
+      --num_train_epochs=3 \
+      --max_seq_length=256 \
+      --learning_rate=2e-5 \
+      --save_steps=5000
 ```
 
 
