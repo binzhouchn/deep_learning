@@ -148,7 +148,8 @@ python3 run_classifier.py   \
 # ZEN
 # 具体任务可见/home/zhoubin/learning/fastNLP/学习/zen/zen_classfication.ipynb
 
-# 
+# xlnet
+
 ```
 
 
