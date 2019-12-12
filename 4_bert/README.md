@@ -125,7 +125,31 @@ model.ckpt-781.meta
 
 ### bert及变种跑中文任务
 
+DGX下地址：~/learning/all_bert/car-forum-customer<br>
+```shell
+# albert_zh/
+export BERT_BASE_DIR=~/learning/all_bert/models/albert_large_zh
+export TEXT_DIR=~/learning/all_bert/car-forum-customer/data
+python3 run_classifier.py   \
+            --task_name=carforum \
+            --do_train=true  \
+            --do_eval=true  \
+            --do_predict=true  \
+            --data_dir=$TEXT_DIR  \
+            --vocab_file=$BERT_BASE_DIR/vocab.txt  \
+            --bert_config_file=$BERT_BASE_DIR/albert_config_large.json \
+            --max_seq_length=256 \
+            --train_batch_size=8 \
+            --learning_rate=2e-5 \
+            --num_train_epochs=30 \
+            --output_dir=~/learning/all_bert/car-forum-customer/save/albert_large_carforum \
+            --init_checkpoint=$BERT_BASE_DIR/albert_model.ckpt
 
+# ZEN
+# 具体任务可见/home/zhoubin/learning/fastNLP/学习/zen/zen_classfication.ipynb
+
+# 
+```
 
 
 ### bert_DIY
