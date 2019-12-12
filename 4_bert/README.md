@@ -8,13 +8,12 @@
 
 [**4. 使用BERT和TensorFlow构建文本分类器**](#使用bert和tensorflow构建文本分类器)
 
-[**5. bert跑中文任务**](#bert跑中文任务)
+[**5. bert及变种跑中文任务**](#bert及变种跑中文任务)
 
 [**6. bert DIY**](#bert_diy)
 
 [**7. 遇到的问题**](#遇到的问题)
 
-[**8. XLNET相关**](#xlnet相关)
 
 ---
 
@@ -124,7 +123,8 @@ model.ckpt-781.meta
 预测<br>
 
 
-### bert跑中文任务
+### bert及变种跑中文任务
+
 
 
 
@@ -137,12 +137,14 @@ model.ckpt-781.meta
 修改model_fn_builder和里面的create_model，其中create_model中output_layer后面可以自己接其他的层比如CRF层然后再改一下loss的计算方式或者不改<br>
 bert create_model中最后一层其实就是Dense层和log_loss，我们可以直接用封装好的Dense不需要像源码自己写
 
+
+
+
+
+
+
 ### 遇到的问题
 
 1. 加载预训练权重到bert后，如果在train模式下预测同一个字则会得到不同的字向量，因为train模式下有dropout或者batchnorm；
 所以pytorch下可以bert_embed.eval()(words)这样
 
-### xlnet相关
-
-代码<br>
-[pretrained_xlnet](https://github.com/ymcui/Chinese-PreTrained-XLNet)<br>
