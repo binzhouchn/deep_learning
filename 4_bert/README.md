@@ -189,8 +189,6 @@ bert create_model中最后一层其实就是Dense层和log_loss，我们可以�
 
 
 
-
-
 ### 遇到的问题
 
 1. 加载预训练权重到bert后，如果在train模式下预测同一个字则会得到不同的字向量，因为train模式下有dropout或者batchnorm；
