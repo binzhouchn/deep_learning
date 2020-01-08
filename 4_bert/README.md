@@ -82,6 +82,8 @@ PRETRAINED_VOCAB_ARCHIVE_MAP = {
 }
 ```
 
+[RoBERTa模型下载链接](https://github.com/ymcui/Chinese-BERT-wwm#%E4%B8%AD%E6%96%87%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD)<br>
+
 [pytorch版bert模型下载汇总地址](https://docs.qq.com/sheet/DVnpkTnF6VW9UeXdh?c=C4A0A0&tab=BB08J2)
 
 
