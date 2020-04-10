@@ -32,7 +32,7 @@ bert测试数据集<br>
 [BERT之'测试数据集描述'](https://blog.csdn.net/shuibuzhaodeshiren/article/details/87743286)<br>
 [预训练模型测试数据集PaddlePaddle](https://github.com/PaddlePaddle/ERNIE/blob/develop/README.zh.md#%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD)<br>
 
-### bert模型下载
+### bert模型下载pytorch版本
 
 ```python
 PRETRAINED_MODEL_ARCHIVE_MAP = {
