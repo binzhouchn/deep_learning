@@ -32,5 +32,5 @@ print(model.predict([np.array([token_ids]), np.array([segment_ids])]))
 
 ### 苏神实现的simbert
 
-[simbert下载地址](https://github.com/Jie-Yuan/Pre-trainedModelZoo)<br>
-[DEMO代码]()
+[simbert模型文件下载地址](https://github.com/Jie-Yuan/Pre-trainedModelZoo)<br>
+[DEMO代码](simbert.py)
