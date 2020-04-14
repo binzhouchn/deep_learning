@@ -2,7 +2,7 @@
 
 [**苏神实现的bert4keras**](#苏神实现的bert4keras)
 
-
+[**苏神实现的simbert**](#苏神实现的simbert)
 
 
 
@@ -30,3 +30,7 @@ token_ids, segment_ids = tokenizer.encode(u'语言模型')
 print(model.predict([np.array([token_ids]), np.array([segment_ids])]))
 ```
 
+### 苏神实现的simbert
+
+[simbert下载地址](https://github.com/Jie-Yuan/Pre-trainedModelZoo)<br>
+[DEMO代码]()
