@@ -1,8 +1,13 @@
 # tf2学习
 
 版本tensorflow2.1.0
-
 [学习github网址](https://github.com/lyhue1991/eat_tensorflow2_in_30_days)<br>
+
+## 1.安装
+
+`docker pull binzhouchn/tensorflow:2.1.0-cuda10.1-cudnn7`
+
+
 
 
 
