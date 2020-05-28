@@ -9,13 +9,21 @@
  - [**2. 基础**](#基础)
  - [**3. 建模**](#建模)
 
+
 ### 安装
 
 `docker pull binzhouchn/tensorflow:2.1.0-cuda10.1-cudnn7`
 
 ### 基础
 
-Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值。<br>
+1. 自变量转换成tf.float32<br>
+
+```python
+x = tf.cast(x,tf.float32)
+```
+
+2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值。<br>
+
 ```python
 # 一阶导
 x = tf.Variable(0.0,name = "x",dtype = tf.float32)
