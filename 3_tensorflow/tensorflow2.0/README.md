@@ -105,6 +105,8 @@ tf.gather(x, slice_idx)
 
 [不同方法构建数据管道及提升管道性能](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
 
+/*构建*/
+
  - 1,从Numpy array构建数据管道
  - 2,从 Pandas DataFrame构建数据管道
  - 3,从Python generator构建数据管道
@@ -112,6 +114,8 @@ tf.gather(x, slice_idx)
  - 5,从文本文件构建数据管道
  - 6,从文件路径构建数据管道
  - 7,从tfrecords文件构建数据管道
+
+/*加速*/
 
  - 1，使用 prefetch 方法让数据准备和参数迭代两个过程相互并行
  - 2，使用 interleave 方法可以让数据读取过程多进程执行,并将不同来源数据夹在一起
