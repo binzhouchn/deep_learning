@@ -17,13 +17,11 @@
 ### 基础
 
 1. 自变量转换成tf.float32<br>
-
 ```python
 x = tf.cast(x, tf.float32)
 ```
 
 2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值。<br>
-
 ```python
 # 一阶导
 x = tf.Variable(0.0,name = "x",dtype = tf.float32)
@@ -37,7 +35,26 @@ with tf.GradientTape() as tape2:
         y = a*tf.pow(x,2) + b*x + c
     dy_dx = tape1.gradient(y,x)   
 dy2_dx2 = tape2.gradient(dy_dx,x)
+```
 
+3. 利用梯度磁带和优化器求最小值<br>
+```python
+# 求f(x) = a*x**2 + b*x + c的最小值
+# 使用optimizer.apply_gradients
+
+x = tf.Variable(0.0,name = "x",dtype = tf.float32)
+a = tf.constant(1.0)
+b = tf.constant(-2.0)
+c = tf.constant(1.0)
+
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
+for _ in range(1000):
+    with tf.GradientTape() as tape:
+        y = a*tf.pow(x,2) + b*x + c
+    dy_dx = tape.gradient(y,x)
+    optimizer.apply_gradients(grads_and_vars=[(dy_dx,x)])
+    
+tf.print("y =",y,"; x =",x)
 ```
 
 ### 建模
