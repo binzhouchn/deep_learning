@@ -103,7 +103,7 @@ tf.gather(x, slice_idx)
 
 9. 数据管道Dataset
 
-[不同方法构建数据管道](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
+[不同方法构建数据管道及提升管道性能](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
 
  - 1,从Numpy array构建数据管道
  - 2,从 Pandas DataFrame构建数据管道
@@ -113,6 +113,12 @@ tf.gather(x, slice_idx)
  - 6,从文件路径构建数据管道
  - 7,从tfrecords文件构建数据管道
 
+ - 1，使用 prefetch 方法让数据准备和参数迭代两个过程相互并行
+ - 2，使用 interleave 方法可以让数据读取过程多进程执行,并将不同来源数据夹在一起
+ - 3，使用 map 时设置num_parallel_calls 让数据转换过程多进行执行
+ - 4，使用 cache 方法让数据在第一个epoch后缓存到内存中，仅限于数据集不大情形
+ - 5，使用 map转换时，先batch, 然后采用向量化的转换方法对每个batch进行转换
+ 
 
 ### 建模
 
