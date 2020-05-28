@@ -19,7 +19,7 @@
 1. 自变量转换成tf.float32<br>
 
 ```python
-x = tf.cast(x,tf.float32)
+x = tf.cast(x, tf.float32)
 ```
 
 2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值。<br>
