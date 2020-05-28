@@ -99,7 +99,8 @@ tf.gather(x, slice_idx)
 ```shell
 !saved_model_cli show --dir ./data/demo/1 --all
 ```
-[!pic](files/查看模型文件信息.jpg)
+<img src="files/查看模型文件信息.jpg" width="640">
+
 
 
 ### 建模
