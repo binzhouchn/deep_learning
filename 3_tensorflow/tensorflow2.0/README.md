@@ -101,6 +101,17 @@ tf.gather(x, slice_idx)
 ```
 <img src="files/查看模型文件信息.jpg" width="640">
 
+9. 数据管道Dataset
+
+[不同方法构建数据管道](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
+
+ - 1,从Numpy array构建数据管道
+ - 2,从 Pandas DataFrame构建数据管道
+ - 3,从Python generator构建数据管道
+ - 4,从csv文件构建数据管道
+ - 5,从文本文件构建数据管道
+ - 6,从文件路径构建数据管道
+ - 7,从tfrecords文件构建数据管道
 
 
 ### 建模
