@@ -38,6 +38,8 @@ dy2_dx2 = tape2.gradient(dy_dx,x)
 ```
 
 3. 利用梯度磁带和优化器求最小值<br>
+
+[自动微分详见](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/2-3,%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86%E6%9C%BA%E5%88%B6.md)<br>
 ```python
 # 求f(x) = a*x**2 + b*x + c的最小值
 # 使用optimizer.apply_gradients
@@ -55,6 +57,7 @@ for _ in range(1000):
     optimizer.apply_gradients(grads_and_vars=[(dy_dx,x)])
     
 tf.print("y =",y,"; x =",x)
+
 ```
 
 ### 建模
