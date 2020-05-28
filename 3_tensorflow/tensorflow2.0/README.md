@@ -57,7 +57,14 @@ for _ in range(1000):
     optimizer.apply_gradients(grads_and_vars=[(dy_dx,x)])
     
 tf.print("y =",y,"; x =",x)
+```
 
+4. 取切片数据<br>
+```python
+x = tf.Variable([1,2,3,4,5,6])
+slice_idx = tf.constant([0,3,5])
+tf.gather(x, slice_idx)
+#得到<tf.Tensor: shape=(3,), dtype=int32, numpy=array([1, 4, 6], dtype=int32)>
 ```
 
 ### 建模
