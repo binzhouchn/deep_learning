@@ -74,9 +74,21 @@ tf.gather(x, slice_idx)
 6. tf2低阶api - 张量的结构操作<br>
 
  - 一，创建张量
+ 
  - 二 ，索引切片
- - 三，维度变换(tf.reshape 可以改变张量的形状;tf.squeeze 可以减少维度;tf.expand_dims 可以增加维度;tf.transpose 可以交换维度,比如tf.transpose(x,perm=[0,2,1]))
- - 四，合并分割(tf.concat和tf.stack有略微的区别，tf.concat是连接，不会增加维度，而tf.stack是堆叠，会增加维度)
+ 
+ - 三，维度变换
+ 
+ tf.reshape 可以改变张量的形状
+ tf.squeeze 可以减少维度
+ tf.expand_dims 可以增加维度
+ tf.transpose 可以交换维度,比如tf.transpose(x,perm=[0,2,1])
+ 
+ - 四，合并分割
+ 
+ tf.concat和tf.stack有略微的区别，tf.concat是连接，不会增加维度，而tf.stack是堆叠，会增加维度<br>
+ tf.split是tf.concat的逆运算，可以指定分割份数平均分割，也可以通过指定每份的记录数量进行分割。```tf.split(c,3,axis = 0)  #指定分割份数，平均分割```
+ 
 
 [链接，和numpy很类似](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/4-1,%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C.md)
 
