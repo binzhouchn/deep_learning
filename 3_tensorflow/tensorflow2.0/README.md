@@ -94,7 +94,12 @@ tf.gather(x, slice_idx)
 
 7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型
 
-8. xxx
+8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到
+
+```shell
+!saved_model_cli show --dir ./data/demo/1 --all
+```
+[!pic](files/查看模型文件信息.jpg)
 
 
 ### 建模
