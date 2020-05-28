@@ -11,10 +11,19 @@
 
 Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值。<br>
 ```python
+# 一阶导
 x = tf.Variable(0.0,name = "x",dtype = tf.float32)
 with tf.GradientTape() as tape:
     y = a*tf.pow(x,2) + b*x + c
 tape.gradient(y,x)
+
+# 二阶导
+with tf.GradientTape() as tape2:
+    with tf.GradientTape() as tape1:   
+        y = a*tf.pow(x,2) + b*x + c
+    dy_dx = tape1.gradient(y,x)   
+dy2_dx2 = tape2.gradient(dy_dx,x)
+
 ```
 
 ## 3.建模
