@@ -71,6 +71,12 @@ tf.gather(x, slice_idx)
 
 用tf.matmul或者@
 
+6. tf2低阶api - 张量的结构操作<br>
+
+[链接，和numpy很类似](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/4-1,%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C.md)
+
+7. xxx
+
 
 ### 建模
 
