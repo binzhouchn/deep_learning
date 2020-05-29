@@ -174,9 +174,9 @@ if gpus:
 
 ```shell
 # docker pull tensorflow/serving
-# 到linear_model文件夹的上一层目录
+# cd到linear_model文件夹的上一层目录，然后运行如下命令
 docker run -t --rm -p 8501:8501 \
-    -v  $PWD/linear_model:/models/linear_model\
+    -v $PWD/linear_model:/models/linear_model\
     -e MODEL_NAME=linear_model \
     tensorflow/serving & >server.log 2>&1
 ```
