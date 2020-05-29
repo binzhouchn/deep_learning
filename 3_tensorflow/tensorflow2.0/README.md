@@ -188,7 +188,6 @@ curl -d '{"instances": [[1.0, 2.0], [5.0,7.0]]}' -X POST http://localhost:8501/v
 python调用<br>
 ```python
 import json,requests
-
 data = json.dumps({"signature_name": "serving_default", "instances": [[1.0, 2.0], [5.0,7.0]]})
 headers = {"content-type": "application/json"}
 json_response = requests.post('http://localhost:8501/v1/models/linear_model:predict', data=data, headers=headers)
