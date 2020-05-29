@@ -181,9 +181,19 @@ docker run -t --rm -p 8501:8501 \
     tensorflow/serving & >server.log 2>&1
 ```
 
-调用<br>
+shell调用<br>
 ```shell
 curl -d '{"instances": [[1.0, 2.0], [5.0,7.0]]}' -X POST http://localhost:8501/v1/models/linear_model:predict
+```
+python调用<br>
+```python
+import json,requests
+
+data = json.dumps({"signature_name": "serving_default", "instances": [[1.0, 2.0], [5.0,7.0]]})
+headers = {"content-type": "application/json"}
+json_response = requests.post('http://localhost:8501/v1/models/linear_model:predict', data=data, headers=headers)
+predictions = json.loads(json_response.text)["predictions"]
+print(predictions)
 ```
 
 
