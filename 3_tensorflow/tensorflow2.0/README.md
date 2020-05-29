@@ -16,12 +16,12 @@
 
 ### 基础
 
-**1. 自变量转换成tf.float32**<br>
+**1. 自变量转换成tf.float32**
 ```python
 x = tf.cast(x, tf.float32)
 ```
 
-**2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值**<br>
+**2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值**
 ```python
 # 一阶导
 x = tf.Variable(0.0,name = "x",dtype = tf.float32)
@@ -37,7 +37,7 @@ with tf.GradientTape() as tape2:
 dy2_dx2 = tape2.gradient(dy_dx,x)
 ```
 
-**3. 利用梯度磁带和优化器求最小值**<br>
+**3. 利用梯度磁带和优化器求最小值**
 
 [自动微分详见](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/2-3,%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86%E6%9C%BA%E5%88%B6.md)<br>
 ```python
@@ -59,7 +59,7 @@ for _ in range(1000):
 tf.print("y =",y,"; x =",x)
 ```
 
-**4. 取切片数据**<br>
+**4. 取切片数据**
 ```python
 x = tf.Variable([1,2,3,4,5,6])
 slice_idx = tf.constant([0,3,5])
@@ -67,11 +67,11 @@ tf.gather(x, slice_idx)
 #得到<tf.Tensor: shape=(3,), dtype=int32, numpy=array([1, 4, 6], dtype=int32)>
 ```
 
-**5. 矩阵乘法**<br>
+**5. 矩阵乘法**
 
 用tf.matmul或者@
 
-**6. tf2低阶api - 张量的结构操作**<br>
+**6. tf2低阶api - 张量的结构操作**
 
  - 一，创建张量
  
@@ -92,16 +92,16 @@ tf.gather(x, slice_idx)
 
 [链接，和numpy很类似](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/4-1,%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C.md)
 
-**7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型**<br>
+**7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型**
 
-**8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到**<br>
+**8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到**
 
 ```shell
 !saved_model_cli show --dir ./data/demo/1 --all
 ```
 <img src="files/查看模型文件信息.jpg" width="640">
 
-**9. 数据管道Dataset**<br>
+**9. 数据管道Dataset**
 
 [不同方法构建数据管道及提升管道性能](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
 
@@ -123,7 +123,7 @@ tf.gather(x, slice_idx)
  - 4，使用 cache 方法让数据在第一个epoch后缓存到内存中，仅限于数据集不大情形
  - 5，使用 map转换时，先batch, 然后采用向量化的转换方法对每个batch进行转换
 
-**10. tf.keras.layers内置了非常丰富的各种功能的模型层**<br>
+**10. tf.keras.layers内置了非常丰富的各种功能的模型层**
 
  - layers.Dense
  - layers.Flatten
@@ -142,7 +142,9 @@ tf.gather(x, slice_idx)
 
 其中tf.keras.Lambda匿名模型层只适用于构造没有学习参数的模型层。
 
-**11. xxx**<br>
+**11. 损失函数losses**
+
+[5-5,损失函数losses]()<br>
 
 
 ### 建模
