@@ -164,6 +164,26 @@ if gpus:
     tf.config.set_visible_devices([gpu0],"GPU")
 ```
 
+使用多GPU训练模型<br>
+如果使用多GPU训练模型，推荐使用内置fit方法，较为方便，仅需添加2行代码。
+```python
+#此处在colab上使用1个GPU模拟出两个逻辑GPU进行多GPU训练
+gpus = tf.config.experimental.list_physical_devices('GPU')
+if gpus:
+    # 设置两个逻辑GPU模拟多GPU训练
+    try:
+        tf.config.experimental.set_virtual_device_configuration(gpus[0],
+            [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1024),
+             tf.config.experimental.VirtualDeviceConfiguration(memory_limit=1024)])
+        logical_gpus = tf.config.experimental.list_logical_devices('GPU')
+        print(len(gpus), "Physical GPU,", len(logical_gpus), "Logical GPUs")
+    except RuntimeError as e:
+        print(e)
+```
+
+**14. xx**
+
+
 
 
 ### 建模
