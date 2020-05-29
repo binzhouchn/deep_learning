@@ -16,7 +16,7 @@
 
 ### 基础
 
-1. 自变量转换成tf.float32<br>
+**1. 自变量转换成tf.float32**<br>
 ```python
 x = tf.cast(x, tf.float32)
 ```
