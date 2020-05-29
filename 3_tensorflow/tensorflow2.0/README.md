@@ -170,7 +170,7 @@ if gpus:
 
 [使用tensorflow-serving部署模型](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-6%2C%E4%BD%BF%E7%94%A8tensorflow-serving%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%9E%8B.md)<br>
 
-保存：linear_model/1/下有三个文件
+保存：linear_model/1/下有三个文件；并启动服务
 
 ```shell
 # docker pull tensorflow/serving
