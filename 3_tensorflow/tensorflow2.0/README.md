@@ -150,7 +150,7 @@ tf.gather(x, slice_idx)
 
 [6-2,训练模型的3种方法](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-2,%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95.md)<br>
 
-**13. 查看是否有GPU及设置**
+**13. 查看是否有GPU及相关设置**
 
 ```python
 gpus = tf.config.list_physical_devices("GPU")
@@ -161,7 +161,7 @@ if gpus:
     # 或者也可以设置GPU显存为固定使用量(例如：4G)
     #tf.config.experimental.set_virtual_device_configuration(gpu0,
     #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)]) 
-    tf.config.set_visible_devices([gpu0],"GPU") 
+    tf.config.set_visible_devices([gpu0],"GPU")
 ```
 
 
