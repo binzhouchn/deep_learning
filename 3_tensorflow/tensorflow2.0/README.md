@@ -146,7 +146,12 @@ tf.gather(x, slice_idx)
 
 [5-5,损失函数losses]()<br>
 
-**12. xxx**
+**12. 训练模型的3种方法**
+
+[6-2,训练模型的3种方法](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-2,%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95.md)<br>
+
+**13. xxx**
+
 
 
 ### 建模
