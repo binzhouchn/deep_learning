@@ -166,9 +166,25 @@ if gpus:
 
 使用多GPU训练模型，待补充<br>
 
-**14. xx**
+**14. tensorflow-serving**
 
+[使用tensorflow-serving部署模型](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-6%2C%E4%BD%BF%E7%94%A8tensorflow-serving%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%9E%8B.md)<br>
 
+保存：linear_model/1/下有三个文件
+
+```shell
+# docker pull tensorflow/serving
+# 到linear_model文件夹的上一层目录
+docker run -t --rm -p 8501:8501 \
+    -v  $PWD/linear_model:/models/linear_model\
+    -e MODEL_NAME=linear_model \
+    tensorflow/serving & >server.log 2>&1
+```
+
+调用<br>
+```shell
+curl -d '{"instances": [[1.0, 2.0], [5.0,7.0]]}' -X POST http://localhost:8501/v1/models/linear_model:predict
+```
 
 
 ### 建模
