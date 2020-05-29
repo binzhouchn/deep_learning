@@ -123,7 +123,27 @@ tf.gather(x, slice_idx)
  - 4，使用 cache 方法让数据在第一个epoch后缓存到内存中，仅限于数据集不大情形
  - 5，使用 map转换时，先batch, 然后采用向量化的转换方法对每个batch进行转换
 
-10. xxx
+10. tf.keras.layers内置了非常丰富的各种功能的模型层
+
+ - layers.Dense
+ - layers.Flatten
+ - layers.Input
+ - layers.DenseFeature
+ - layers.Dropout
+ - layers.Conv2D
+ - layers.MaxPooling2D
+ - layers.Conv1D
+ - layers.Embedding
+ - layers.GRU
+ - layers.LSTM
+ - layers.Bidirectional
+ 
+如果这些内置模型层不能够满足需求，我们也可以通过编写tf.keras.Lambda匿名模型层或继承tf.keras.layers.Layer基类构建自定义的模型层。
+
+其中tf.keras.Lambda匿名模型层只适用于构造没有学习参数的模型层。
+
+11. xxx
+
 
 ### 建模
 
