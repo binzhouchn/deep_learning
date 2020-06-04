@@ -197,7 +197,7 @@ print(predictions)
 
 **15. tf-serving多模型部署**<br>
 
-模型放置的目录结构如下：<br>
+15.1 模型放置的目录结构如下：<br>
 <img src="files/model_file_structure.png" width="640">
 
 其中models.config文件写法如下：
@@ -215,13 +215,13 @@ model_config_list: {
   }
 }
 ```
-启动docker<br>
+15.2 启动docker<br>
 ```shell
 # cd到multimodel文件夹的上一层目录，然后运行如下命令
 docker run -t --rm -p 8501:8501 -v $PWD/multimodel:/models/multimodel tensorflow/serving --model_config_file=/models/multimodel/models.config --model_config_file_poll_wait_seconds=60 & >server.log 2>&1
 ```
 
-调用方法和之前一样，调用不同的模型只要把:predict前面的模型换成想要用的模型名即可
+15.3 调用方法和之前一样，调用不同的模型只要把:predict前面的模型换成想要用的模型名即可
 
 
 ### 建模
