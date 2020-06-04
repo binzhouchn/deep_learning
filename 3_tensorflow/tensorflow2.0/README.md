@@ -198,7 +198,7 @@ print(predictions)
 **15. tf-serving多模型部署**<br>
 
 15.1 模型放置的目录结构如下：<br>
-<img src="files/model_file_structure.png" width="640">
+<img src="files/tfserving_model_structure.png" width="640">
 
 其中models.config文件写法如下：
 ```shell
