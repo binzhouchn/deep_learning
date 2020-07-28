@@ -15,8 +15,9 @@ cd IJava/
 ```
 然后启动jupyter notebook即可，选java kernel的notebook
 
-## 手写数字训练与预测
+## 一些简单的模型训练与预测
 
+[手写数字](1.mnist_demo_java.ipynb)<br>
+[物品检测](2.object_detection_with_model_zoo.ipynb)<br>
 
-[ipynb代码](mnist_demo_java.ipynb)
 
