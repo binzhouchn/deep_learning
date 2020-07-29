@@ -1,2 +1,4 @@
 .idea
 __pyc*
+.ipynb_checkpoints
+.log
