@@ -198,7 +198,7 @@ if gpus:
 
 ### 基于ai的信道信息反馈性能提升
 
-代码在【基于AI的信道信息反馈性能提升】文件夹中，其中modelDesign.py文件中用model.fit跑模型的时候自定义metrics和callback
+代码在[基于AI的信道信息反馈性能提升](基于AI的信道信息反馈性能提升)文件夹中，其中modelDesign.py文件中用model.fit跑模型的时候自定义metrics和callback
 ```python
 #自定义metrics
 class NMSE_tf(keras.metrics.Metric):
