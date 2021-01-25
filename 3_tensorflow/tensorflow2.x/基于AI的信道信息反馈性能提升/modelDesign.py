@@ -165,8 +165,8 @@ class CheckPointer(keras.callbacks.Callback):
         if val_nmse < self.best_val_nmse:
             self.best_val_nmse = val_nmse
             # Encoder Saving
-            encModel.save('./modelSubmit_2/encoder.h5')
+            encModel.save('./modelSubmit/encoder.h5')
             # Decoder Saving
-            decModel.save('./modelSubmit_2/decoder.h5')
+            decModel.save('./modelSubmit/decoder.h5')
             print("tf model saved!")
         print('\nval NMSE = ' + np.str(val_nmse))

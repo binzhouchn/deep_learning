@@ -29,6 +29,8 @@
  - tf.keras.layers内置了非常丰富的各种功能的模型层
  - 训练模型的3种方法
  - 查看是否有GPU及相关设置
+ 
+[**基于AI的信道信息反馈性能提升（自定义metrics和callback）**](#基于ai的信道信息反馈性能提升)
 
 [**mnist_demo**](#mnist_demo)
 
@@ -194,6 +196,55 @@ if gpus:
 
 使用多GPU训练模型，待补充<br>
 
+### 基于ai的信道信息反馈性能提升
+
+代码在【基于AI的信道信息反馈性能提升】文件夹中，其中modelDesign.py文件中用model.fit跑模型的时候自定义metrics和callback
+```python
+#自定义metrics
+class NMSE_tf(keras.metrics.Metric):
+    def __init__(self, name="nmse", **kwargs):
+        super(NMSE_tf, self).__init__(name=name, **kwargs)
+        self.totalLoss = self.add_weight(name="totalLoss", initializer="zeros")
+        self.totalCount = self.add_weight(name="totalCount", dtype=tf.int32, initializer="zeros")
+    def update_state(self, y_true, y_pred):
+        x_real = tf.reshape(y_true[:, :, :, 0], (tf.shape(y_true)[0], -1))-0.5
+        x_imag = tf.reshape(y_true[:, :, :, 1], (tf.shape(y_true)[0], -1))-0.5
+        x_hat_real = tf.reshape(y_pred[:, :, :, 0], (tf.shape(y_pred)[0], -1))-0.5
+        x_hat_imag = tf.reshape(y_pred[:, :, :, 1], (tf.shape(y_pred)[0], -1))-0.5
+        power = tf.reduce_sum(x_real ** 2 + x_imag ** 2, axis=1)
+        mse = tf.reduce_sum((x_real - x_hat_real) ** 2 + (x_imag - x_hat_imag) ** 2, axis=1)
+        nmse = tf.reduce_sum(mse / power)
+        self.totalCount.assign_add(tf.shape(y_true)[0])
+        self.totalLoss.assign_add(nmse)
+    def result(self):
+        return self.totalLoss / tf.cast(self.totalCount, tf.float32)#必须要转化成一样的类型才能相除
+    def reset_states(self):
+        # The state of the metric will be reset at the start of each epoch.
+        self.totalLoss.assign(0.0)
+        self.totalCount.assign(0)
+#自定义callback用于评估与保存
+class CheckPointer(keras.callbacks.Callback):
+    """自定义评估与保存
+    """
+    def __init__(self, valid_generator):
+        self.valid_generator = valid_generator
+        self.best_val_nmse = 0.55
+    def evaluate(self, data):
+        y_true = data #autoencoder中y_true就是输入数据
+        y_pred = autoencoderModel.predict(y_true, batch_size=512)
+        res = NMSE(y_true, y_pred)
+        return res
+    def on_epoch_end(self, epoch, logs=None):
+        val_nmse = self.evaluate(self.valid_generator)
+        if val_nmse < self.best_val_nmse:
+            self.best_val_nmse = val_nmse
+            # Encoder Saving
+            encModel.save('./modelSubmit/encoder.h5')
+            # Decoder Saving
+            decModel.save('./modelSubmit/decoder.h5')
+            print("tf model saved!")
+        print('\nval NMSE = ' + np.str(val_nmse))
+```
 
 ### mnist_demo
 

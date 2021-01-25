@@ -3,6 +3,7 @@
 # Train
 import numpy as np
 from tensorflow import keras
+from modelDesign import *
 import scipy.io as sio
 import os
 import random
