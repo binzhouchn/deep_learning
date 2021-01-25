@@ -193,6 +193,12 @@ if gpus:
     #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)]) 
     tf.config.set_visible_devices([gpu0],"GPU")
 ```
+还有一种方法<br>
+```python
+import os
+gpu_list = '0,1'
+os.environ['CUDA_VISIBLE_DEVICES'] = gpu_list
+```
 
 使用多GPU训练模型，待补充<br>
 
