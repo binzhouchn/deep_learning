@@ -16,6 +16,20 @@
 
 ## tf2基础笔记
 
+[**tf2 basic**](#basic)
+ - 1. 自变量转换成tf.float32
+ - 2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值
+ - 3. 利用梯度磁带和优化器求最小值
+ - 4. 取切片数据
+ - 5. 矩阵乘法
+ - 6. tf2低阶api-张量的结构操作(维度变换、合并分割)
+ - 7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型
+ - 8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到
+ - 9. 数据管道Dataset
+ - 10. tf.keras.layers内置了非常丰富的各种功能的模型层
+ - 11. 训练模型的3种方法
+ - 12. 查看是否有GPU及相关设置
+
 [**mnist_demo**](#mnist_demo)
 
 [**用tf.keras构建自己的网络层**](#用tf_keras构建自己的网络层)
@@ -31,6 +45,155 @@
 [**GAN**](#gan)
 
 [**Transformer**](#transformer)
+
+[**tensorflow serving模型部署**](#tensorflow_serving)
+
+---
+
+### basic
+
+**1. 自变量转换成tf.float32**
+```python
+x = tf.cast(x, tf.float32)
+```
+
+**2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值**
+```python
+# 一阶导
+x = tf.Variable(0.0,name = "x",dtype = tf.float32)
+with tf.GradientTape() as tape:
+    y = a*tf.pow(x,2) + b*x + c
+tape.gradient(y,x)
+
+# 二阶导
+with tf.GradientTape() as tape2:
+    with tf.GradientTape() as tape1:   
+        y = a*tf.pow(x,2) + b*x + c
+    dy_dx = tape1.gradient(y,x)   
+dy2_dx2 = tape2.gradient(dy_dx,x)
+```
+
+**3. 利用梯度磁带和优化器求最小值**
+
+[自动微分详见](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/2-3,%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86%E6%9C%BA%E5%88%B6.md)<br>
+```python
+# 求f(x) = a*x**2 + b*x + c的最小值
+# 使用optimizer.apply_gradients
+
+x = tf.Variable(0.0,name = "x",dtype = tf.float32)
+a = tf.constant(1.0)
+b = tf.constant(-2.0)
+c = tf.constant(1.0)
+
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
+for _ in range(1000):
+    with tf.GradientTape() as tape:
+        y = a*tf.pow(x,2) + b*x + c
+    dy_dx = tape.gradient(y,x)
+    optimizer.apply_gradients(grads_and_vars=[(dy_dx,x)])
+    
+tf.print("y =",y,"; x =",x)
+```
+
+**4. 取切片数据**
+```python
+x = tf.Variable([1,2,3,4,5,6])
+slice_idx = tf.constant([0,3,5])
+tf.gather(x, slice_idx)
+#得到<tf.Tensor: shape=(3,), dtype=int32, numpy=array([1, 4, 6], dtype=int32)>
+```
+
+**5. 矩阵乘法**
+
+用tf.matmul或者@
+
+**6. tf2低阶api - 张量的结构操作**
+
+ - 6.1 维度变换
+ 
+ tf.reshape 可以改变张量的形状<br>
+ tf.squeeze 可以减少维度<br>
+ tf.expand_dims 可以增加维度<br>
+ tf.transpose 可以交换维度,比如tf.transpose(x,perm=[0,2,1])<br>
+ 
+ - 6.2 合并分割
+ 
+ 4.1 tf.concat和tf.stack有略微的区别，tf.concat是连接，不会增加维度，而tf.stack是堆叠，会增加维度<br>
+ 4.2 tf.split是tf.concat的逆运算，可以指定分割份数平均分割，也可以通过指定每份的记录数量进行分割。```tf.split(c,3,axis = 0)  #指定分割份数，平均分割```
+ 
+
+[链接，和numpy很类似](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/4-1,%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C.md)
+
+**7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型**
+
+**8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到**
+
+```shell
+!saved_model_cli show --dir ./data/demo/1 --all
+```
+<img src="files/查看模型文件信息.jpg" width="640">
+
+**9. 数据管道Dataset**
+
+[不同方法构建数据管道及提升管道性能](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
+
+/*构建*/
+
+ - 1,从Numpy array构建数据管道
+ - 2,从 Pandas DataFrame构建数据管道
+ - 3,从Python generator构建数据管道
+ - 4,从csv文件构建数据管道
+ - 5,从文本文件构建数据管道
+ - 6,从文件路径构建数据管道
+ - 7,从tfrecords文件构建数据管道
+
+/*加速*/
+
+ - 1，使用 prefetch 方法让数据准备和参数迭代两个过程相互并行
+ - 2，使用 interleave 方法可以让数据读取过程多进程执行,并将不同来源数据夹在一起
+ - 3，使用 map 时设置num_parallel_calls 让数据转换过程多进行执行
+ - 4，使用 cache 方法让数据在第一个epoch后缓存到内存中，仅限于数据集不大情形
+ - 5，使用 map转换时，先batch, 然后采用向量化的转换方法对每个batch进行转换
+
+**10. tf.keras.layers内置了非常丰富的各种功能的模型层**
+
+ - layers.Dense
+ - layers.Flatten
+ - layers.Input
+ - layers.DenseFeature
+ - layers.Dropout
+ - layers.Conv2D
+ - layers.MaxPooling2D
+ - layers.Conv1D
+ - layers.Embedding
+ - layers.GRU
+ - layers.LSTM
+ - layers.Bidirectional
+ 
+如果这些内置模型层不能够满足需求，我们也可以通过编写tf.keras.Lambda匿名模型层或继承tf.keras.layers.Layer基类构建自定义的模型层。
+
+其中tf.keras.Lambda匿名模型层只适用于构造没有学习参数的模型层。
+
+**11. 训练模型的3种方法**
+
+[6-2,训练模型的3种方法](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-2,%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95.md)<br>
+
+**12. 查看是否有GPU及相关设置**
+
+```python
+gpus = tf.config.list_physical_devices("GPU")
+
+if gpus:
+    gpu0 = gpus[0] #如果有多个GPU，仅使用第0个GPU
+    tf.config.experimental.set_memory_growth(gpu0, True) #设置GPU显存用量按需使用
+    # 或者也可以设置GPU显存为固定使用量(例如：4G)
+    #tf.config.experimental.set_virtual_device_configuration(gpu0,
+    #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)]) 
+    tf.config.set_visible_devices([gpu0],"GPU")
+```
+
+使用多GPU训练模型，待补充<br>
+
 
 ### mnist_demo
 
@@ -101,161 +264,7 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 已讲网页保存至files，还有001-Transformer.ipynb也在files中
 
-
-
-
-
-**1. 自变量转换成tf.float32**
-```python
-x = tf.cast(x, tf.float32)
-```
-
-**2. Tensorflow一般使用梯度磁带tf.GradientTape来记录正向运算过程，然后反播磁带自动得到梯度值**
-```python
-# 一阶导
-x = tf.Variable(0.0,name = "x",dtype = tf.float32)
-with tf.GradientTape() as tape:
-    y = a*tf.pow(x,2) + b*x + c
-tape.gradient(y,x)
-
-# 二阶导
-with tf.GradientTape() as tape2:
-    with tf.GradientTape() as tape1:   
-        y = a*tf.pow(x,2) + b*x + c
-    dy_dx = tape1.gradient(y,x)   
-dy2_dx2 = tape2.gradient(dy_dx,x)
-```
-
-**3. 利用梯度磁带和优化器求最小值**
-
-[自动微分详见](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/2-3,%E8%87%AA%E5%8A%A8%E5%BE%AE%E5%88%86%E6%9C%BA%E5%88%B6.md)<br>
-```python
-# 求f(x) = a*x**2 + b*x + c的最小值
-# 使用optimizer.apply_gradients
-
-x = tf.Variable(0.0,name = "x",dtype = tf.float32)
-a = tf.constant(1.0)
-b = tf.constant(-2.0)
-c = tf.constant(1.0)
-
-optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
-for _ in range(1000):
-    with tf.GradientTape() as tape:
-        y = a*tf.pow(x,2) + b*x + c
-    dy_dx = tape.gradient(y,x)
-    optimizer.apply_gradients(grads_and_vars=[(dy_dx,x)])
-    
-tf.print("y =",y,"; x =",x)
-```
-
-**4. 取切片数据**
-```python
-x = tf.Variable([1,2,3,4,5,6])
-slice_idx = tf.constant([0,3,5])
-tf.gather(x, slice_idx)
-#得到<tf.Tensor: shape=(3,), dtype=int32, numpy=array([1, 4, 6], dtype=int32)>
-```
-
-**5. 矩阵乘法**
-
-用tf.matmul或者@
-
-**6. tf2低阶api - 张量的结构操作**
-
- - 一，创建张量
- 
- - 二 ，索引切片
- 
- - 三，维度变换
- 
- tf.reshape 可以改变张量的形状<br>
- tf.squeeze 可以减少维度<br>
- tf.expand_dims 可以增加维度<br>
- tf.transpose 可以交换维度,比如tf.transpose(x,perm=[0,2,1])<br>
- 
- - 四，合并分割
- 
- 4.1 tf.concat和tf.stack有略微的区别，tf.concat是连接，不会增加维度，而tf.stack是堆叠，会增加维度<br>
- 4.2 tf.split是tf.concat的逆运算，可以指定分割份数平均分割，也可以通过指定每份的记录数量进行分割。```tf.split(c,3,axis = 0)  #指定分割份数，平均分割```
- 
-
-[链接，和numpy很类似](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/4-1,%E5%BC%A0%E9%87%8F%E7%9A%84%E7%BB%93%E6%9E%84%E6%93%8D%E4%BD%9C.md)
-
-**7. 如果调用被@tf.function装饰的函数时输入的参数不是Tensor类型，则每次都会重新创建计算图。因此，一般建议调用@tf.function时应传入Tensor类型**
-
-**8. 查看模型文件相关信息，红框标出来的输出信息在模型部署和跨平台使用时有可能会用到**
-
-```shell
-!saved_model_cli show --dir ./data/demo/1 --all
-```
-<img src="files/查看模型文件信息.jpg" width="640">
-
-**9. 数据管道Dataset**
-
-[不同方法构建数据管道及提升管道性能](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/5-1,%E6%95%B0%E6%8D%AE%E7%AE%A1%E9%81%93Dataset.md)<br>
-
-/*构建*/
-
- - 1,从Numpy array构建数据管道
- - 2,从 Pandas DataFrame构建数据管道
- - 3,从Python generator构建数据管道
- - 4,从csv文件构建数据管道
- - 5,从文本文件构建数据管道
- - 6,从文件路径构建数据管道
- - 7,从tfrecords文件构建数据管道
-
-/*加速*/
-
- - 1，使用 prefetch 方法让数据准备和参数迭代两个过程相互并行
- - 2，使用 interleave 方法可以让数据读取过程多进程执行,并将不同来源数据夹在一起
- - 3，使用 map 时设置num_parallel_calls 让数据转换过程多进行执行
- - 4，使用 cache 方法让数据在第一个epoch后缓存到内存中，仅限于数据集不大情形
- - 5，使用 map转换时，先batch, 然后采用向量化的转换方法对每个batch进行转换
-
-**10. tf.keras.layers内置了非常丰富的各种功能的模型层**
-
- - layers.Dense
- - layers.Flatten
- - layers.Input
- - layers.DenseFeature
- - layers.Dropout
- - layers.Conv2D
- - layers.MaxPooling2D
- - layers.Conv1D
- - layers.Embedding
- - layers.GRU
- - layers.LSTM
- - layers.Bidirectional
- 
-如果这些内置模型层不能够满足需求，我们也可以通过编写tf.keras.Lambda匿名模型层或继承tf.keras.layers.Layer基类构建自定义的模型层。
-
-其中tf.keras.Lambda匿名模型层只适用于构造没有学习参数的模型层。
-
-**11. 损失函数losses**
-
-[5-5,损失函数losses]()<br>
-
-**12. 训练模型的3种方法**
-
-[6-2,训练模型的3种方法](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-2,%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E7%9A%843%E7%A7%8D%E6%96%B9%E6%B3%95.md)<br>
-
-**13. 查看是否有GPU及相关设置**
-
-```python
-gpus = tf.config.list_physical_devices("GPU")
-
-if gpus:
-    gpu0 = gpus[0] #如果有多个GPU，仅使用第0个GPU
-    tf.config.experimental.set_memory_growth(gpu0, True) #设置GPU显存用量按需使用
-    # 或者也可以设置GPU显存为固定使用量(例如：4G)
-    #tf.config.experimental.set_virtual_device_configuration(gpu0,
-    #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)]) 
-    tf.config.set_visible_devices([gpu0],"GPU")
-```
-
-使用多GPU训练模型，待补充<br>
-
-**14. tensorflow-serving**
+### tensorflow_serving
 
 [使用tensorflow-serving部署模型](https://github.com/lyhue1991/eat_tensorflow2_in_30_days/blob/master/6-6%2C%E4%BD%BF%E7%94%A8tensorflow-serving%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%9E%8B.md)<br>
 
