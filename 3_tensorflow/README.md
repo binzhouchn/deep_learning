@@ -5,11 +5,11 @@
 
 [**1. tensorflow1.x_withKeras**](tensorflow1.x_withKeras)
 
-[**2. tensorflow2.0**](tensorflow2.0)
+[**2. tensorflow2.x**](tensorflow2.x)
 
 ---
 
-## tensorflow2.0笔记
+## tensorflow2.x笔记
 
 [**mnist_demo**](#mnist_demo)
 
@@ -69,7 +69,7 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 [分类](https://blog.csdn.net/qq_31456593/article/details/88777343)<br>
 [回归](https://blog.csdn.net/qq_31456593/article/details/88778647)<br>
 
-见代码tensorflow2.0/5.csv_binary_classify.py
+见代码tensorflow2.x/5.csv_binary_classify.py
 
 ### mlp及深度学习常见技巧
 
@@ -82,16 +82,16 @@ np.testing.assert_allclose(predictions, new_prediction, atol=1e-6) # 预测结�
 
 [链接](https://blog.csdn.net/qq_31456593/article/details/95040964)
 
-见代码tensorflow2.0/6.low_api_demo.py
+见代码tensorflow2.x/6.low_api_demo.py
 
 ### GAN
 
 [链接](https://blog.csdn.net/qq_31456593/article/details/88991068)
 
-见代码tensorflow2.0/002-DCGAN.ipynb
+见代码tensorflow2.x/002-DCGAN.ipynb
 
 ### Transformer
 
 [这篇讲的确实详细非常好](https://blog.csdn.net/qq_31456593/article/details/89923913)<br>
 
-已讲网页保存至tensorflow2.0/files，还有001-Transformer.ipynb也在files中
+已讲网页保存至tensorflow2.x/files，还有001-Transformer.ipynb也在files中
