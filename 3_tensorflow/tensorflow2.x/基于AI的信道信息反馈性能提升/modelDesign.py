@@ -298,7 +298,7 @@ def Encoder(enc_input, num_feedback_bits):
 def Decoder(dec_input, num_feedback_bits):
     num_quan_bits = 4
     h = DeuantizationLayer(num_quan_bits)(dec_input)
-    h = tf.keras.layers.Reshape((-1, int(num_feedback_bits / num_quan_bits)))(h)
+    h = tf.keras.layers.Reshape((int(num_feedback_bits/num_quan_bits),))(h)
     h = layers.Dense(768, activation='sigmoid')(h)
     h = layers.Reshape((24, 16, 2))(h)
     h = keras.Sequential([ConvBN(channelNum, 3), CRBlock64(), CRBlock()])(h)
