@@ -293,6 +293,13 @@ class AutoEncoder(nn.Module):
         super(AutoEncoder, self).__init__()
         self.encoder = Encoder(feedback_bits)
         self.decoder = Decoder(feedback_bits)
+        # #初始化参数分布
+        # for m in self.modules():
+        #     if isinstance(m, (nn.Conv2d, nn.Linear)):
+        #         nn.init.xavier_uniform_(m.weight)
+        #     elif isinstance(m, nn.BatchNorm2d):
+        #         nn.init.constant_(m.weight, 1)
+        #         nn.init.constant_(m.bias, 0)
     def forward(self, x):
         feature = self.encoder(x)
         out = self.decoder(feature)
