@@ -10,7 +10,7 @@ import random
 
 gpus = tf.config.list_physical_devices("GPU")
 if gpus:
-    gpu = gpus[2]  # 如果有多个GPU，仅使用第2个GPU
+    gpu = gpus[0]  # 如果有多个GPU，仅使用第1个GPU
     tf.config.experimental.set_memory_growth(gpu, True)  # 显存需要多少用多少，而不是一次占满
     tf.config.set_visible_devices([gpu], "GPU")
 # =======================================================================================================================
