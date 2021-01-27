@@ -271,6 +271,8 @@ new_model = get_model() # 之前设计好的模型结构
 new_model.compile(loss='sparse_categorical_crossentropy',
                   optimizer=keras.optimizers.RMSprop())
 new_model.load_weights('my_model_weights')
+
+#保存成h5模型例子看AI信道信息代码
 ```
 
 1.2 保持全模型(子类模型的结构无法保存和序列化，只能保持参数)<br>
