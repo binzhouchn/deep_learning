@@ -1,20 +1,56 @@
 # pytorch实用技巧
 
-[**1. view函数**](#view函数)
+[**1. 得到模型参数数量**](#得到模型参数数量)
 
-[**2. unsqueeze函数**](#unsqueeze函数)
+[**2. 特定网络结构参数分布初始化**](#特定网络结构参数分布初始化)
 
-[**3. squeeze函数**](#squeeze函数)
+[**3. view函数**](#view函数)
 
-[**4. pytorch自定义损失函数**](#pytorch自定义损失函数)
+[**4. unsqueeze函数**](#unsqueeze函数)
 
-[**5. pytorch自定义矩阵W**](#pytorch自定义矩阵w)
+[**5. squeeze函数**](#squeeze函数)
 
-[**6. pytorch embedding设置不可导**](#pytorch_embedding设置不可导)
+[**6. pytorch自定义损失函数**](#pytorch自定义损失函数)
 
-[**7. 中文tokenizer**](#中文tokenizer)
+[**7. pytorch自定义矩阵W**](#pytorch自定义矩阵w)
+
+[**8. pytorch embedding设置不可导**](#pytorch_embedding设置不可导)
+
+[**9. 中文tokenizer**](#中文tokenizer)
 
 ---
+
+## 得到模型参数数量
+
+```python
+def get_parameter_number(model):
+    total_num = sum(p.numel() for p in model.parameters())
+    trainable_num = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    return {'Total': total_num, 'Trainable': trainable_num}
+get_parameter_number(model)
+```
+
+## 特定网络结构参数分布初始化
+
+```python
+class AutoEncoder(nn.Module):
+    def __init__(self, feedback_bits):
+        super(AutoEncoder, self).__init__()
+        self.encoder = Encoder(feedback_bits)
+        self.decoder = Decoder(feedback_bits)
+        ###-------初始化参数分布------###
+        for m in self.modules():
+            if isinstance(m, (nn.Conv2d, nn.Linear)):
+                nn.init.xavier_uniform_(m.weight)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+        ###------------------------###
+    def forward(self, x):
+        feature = self.encoder(x)
+        out = self.decoder(feature)
+        return out
+```
 
 ## view函数
 
