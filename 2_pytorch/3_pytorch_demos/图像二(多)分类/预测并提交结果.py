@@ -5,7 +5,7 @@ test_set = Dataset('ds/test/', img_name_and_label=[(x[0], -1) for x in tt.to_num
 test_loader = data.DataLoader(test_set, batch_size=args.batch_size, shuffle=False)
 
 model = make_model(args)
-model.load_state_dict(torch.load('model_2_7320_8056.pth'))  # 加载checkpoints中最好的那个文件比如model_2_7320_8056.pth
+model.load_state_dict(torch.load('model_2_9187_8833.pth.pth'))  # 加载checkpoints中最好的那个文件比如model_2_9187_8833.pth
 
 preds = []
 with torch.no_grad():
