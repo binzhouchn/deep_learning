@@ -8,8 +8,8 @@ model = make_model(args)
 model.load_state_dict(torch.load('model_2_7320_8056.pth'))  # 加载checkpoints中最好的那个文件比如model_2_7320_8056.pth
 
 preds = []
-model.eval()
 with torch.no_grad():
+    model.eval()
     for i, (input, target) in enumerate(test_loader):
         if not args.no_cuda:
             input = input.cuda()
