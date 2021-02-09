@@ -6,6 +6,8 @@ test_loader = data.DataLoader(test_set, batch_size=args.batch_size, shuffle=Fals
 
 model = make_model(args)
 model.load_state_dict(torch.load('model_2_9187_8833.pth.pth'))  # 加载checkpoints中最好的那个文件比如model_2_9187_8833.pth
+if not args.no_cuda:
+    model = model.cuda()
 
 preds = []
 with torch.no_grad():
