@@ -14,6 +14,7 @@ import numpy as np
 from tqdm import tqdm, tqdm_notebook
 from utils import AverageMeter, accuracy, save_checkpoint
 from models.resnet import resnet50
+from models.efficientnet import EfficientNet
 
 # 如果有GPU则指定需要用哪块
 gpu_list = '0'
@@ -23,7 +24,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = gpu_list
 class args:
     batch_size = 32
     no_cuda = False
-    arch = 'resnet50'
+    arch = 'resnet50'  # efficientnet名字和所用到的模型最好对应起来
     num_classes = 2
     # 三维图像的均值 PIL(Image)加载
     global_mean = [0.793, 0.546, 0.502]
@@ -171,23 +172,26 @@ val_loader = data.DataLoader(val_set, batch_size=args.batch_size, shuffle=False)
 
 
 # 2. 跑模型(定义损失衡量优化器等)
-def make_model(args, pretrained_model_path=''):
+def make_model(args, pretrained_model_path='', revise_last=True):
     print("=> creating model '{}'".format(args.arch))
-    # 加载预训练模型
+    ##### 加载预训练模型 #####
     model = resnet50(progress=True)
+    # model = EfficientNet.from_name('efficientnet-b7')
+    ##########
     if pretrained_model_path:
         print('loading..')
         model.load_state_dict(torch.load(pretrained_model_path))
         print('pretrained model loaded!')
     # 修改最后一层全连接层
-    fc_inputs = model.fc.in_features
-    model.fc = nn.Sequential(
-        nn.Linear(fc_inputs, 256),
-        nn.ReLU(),
-        nn.Dropout(0.4),
-        nn.Linear(256, args.num_classes)
-    )
-    model.fc.requires_grad = True#不一定要加
+    if revise_last:
+        fc_inputs = model.fc.in_features
+        model.fc = nn.Sequential(
+            nn.Linear(fc_inputs, 256),
+            nn.ReLU(),
+            nn.Dropout(0.4),
+            nn.Linear(256, args.num_classes)
+        )
+        model.fc.requires_grad = True  # 不一定要加
     return model
 
 
