@@ -187,6 +187,7 @@ def make_model(args, pretrained_model_path=''):
         nn.Dropout(0.4),
         nn.Linear(256, args.num_classes)
     )
+    model.fc.requires_grad = True#不一定要加
     return model
 
 
