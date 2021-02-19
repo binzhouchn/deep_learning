@@ -29,7 +29,7 @@ class args:
     # 三维图像的均值 PIL(Image)加载
     global_mean = [0.793, 0.546, 0.502]
     global_std = [0.178, 0.224, 0.241]
-    checkpoint = './checkpoints'
+    checkpoint = './checkpoints' #模型参数保存地址
 
 
 # 1. 读取数据
@@ -113,7 +113,7 @@ def get_transforms(input_size=224, test_size=224, backbone=None):
     return transformations
 
 
-transformations = get_transforms(input_size=480, test_size=480)
+transformations = get_transforms(input_size=456, test_size=456)
 
 
 ## 1.2 重写pytorch Dataset，定义训练测试数据标签处理方式(可以单独写个py文件放)
@@ -176,7 +176,7 @@ def make_model(args, pretrained_model_path='', revise_last=True):
     print("=> creating model '{}'".format(args.arch))
     ##### 加载预训练模型 #####
     model = resnet50(progress=True)
-    # model = EfficientNet.from_name('efficientnet-b7')
+    # model = EfficientNet.from_name('efficientnet-b5') #图片大小3*456*456
     ##########
     if pretrained_model_path:
         print('loading..')
@@ -195,11 +195,14 @@ def make_model(args, pretrained_model_path='', revise_last=True):
     return model
 
 
-model = make_model(args, 'pretrained/resnet50-19c8e357.pth')
+model = make_model(args, 'pretrained/resnet50-19c8e357.pth', True)
 
 learning_rate = 0.001
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=1e-5)
+# optimizer = torch.optim.SGD(model.parameters(), learning_rate,
+#                                 momentum=0.9,
+#                                 weight_decay=1e-5)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.2, patience=5, verbose=False)
 
 if not args.no_cuda:
