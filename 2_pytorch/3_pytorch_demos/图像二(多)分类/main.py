@@ -1,3 +1,4 @@
+#图像分类总入口(pytorch版)
 __author__ = 'zhoubin'
 __ctime__ = '20210209'
 
@@ -12,9 +13,10 @@ from torch.utils.data import Dataset
 import pandas as pd
 import numpy as np
 from tqdm import tqdm, tqdm_notebook
-from utils import AverageMeter, accuracy, save_checkpoint
-from models.resnet import resnet50
-from models.efficientnet import EfficientNet
+from .utils import AverageMeter, accuracy, save_checkpoint
+from .models.resnet import resnet50
+from .models.efficientnet import EfficientNet
+from .models.byobnet import gernet_l, repvgg_b2
 
 # 如果有GPU则指定需要用哪块
 gpu_list = '0'
@@ -32,7 +34,7 @@ class args:
     checkpoint = './checkpoints' #模型参数保存地址
 
 
-# 1. 读取数据
+########### *1. 读取数据* ###########
 ## 1.1 定义图片transform方式，进行一定的数据增强(可以单独写个py文件放)
 class Resize(object):
     def __init__(self, size, interpolation=Image.BILINEAR):
@@ -155,7 +157,7 @@ class Dataset(Dataset):
         return (img, int(label))
 
 
-# 读取数据进行transform，load等操作
+## 1.3 读取数据进行transform，load等操作
 df = pd.read_csv('ds/train_label.csv')  # '7o93ld.png',1 【1表示含有福，0表示不含】
 from sklearn.model_selection import StratifiedKFold
 
@@ -171,13 +173,14 @@ val_set = Dataset('ds/train/', img_name_and_label=[(x[0], x[1]) for x in df.loc[
 val_loader = data.DataLoader(val_set, batch_size=args.batch_size, shuffle=False)
 
 
-# 2. 跑模型(定义损失衡量优化器等)
+########## *2. 跑模型(定义损失衡量优化器等)* ##########
 def make_model(args, pretrained_model_path='', revise_last=True):
     print("=> creating model '{}'".format(args.arch))
-    ##### 加载预训练模型 #####
+    # 加载预训练模型
     model = resnet50(progress=True)
     # model = EfficientNet.from_name('efficientnet-b5') #图片大小3*456*456
-    ##########
+    # model = repvgg_b2() #后面修改最后一层全连接的时候是model.head.fc而不是model.fc因为fc写在另一个名为head的类下
+    #####
     if pretrained_model_path:
         print('loading..')
         model.load_state_dict(torch.load(pretrained_model_path))
@@ -211,7 +214,7 @@ if not args.no_cuda:
     except Exception:
         model = torch.nn.DataParallel(model, device_ids=list(range(args.num_gpu))).cuda()
     criterion = criterion.cuda()
-##RUN
+########### RUN
 EPOCHS = 100
 best_acc = 0
 for epo in range(EPOCHS):
