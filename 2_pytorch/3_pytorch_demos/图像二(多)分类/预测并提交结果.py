@@ -23,3 +23,9 @@ preds = [x.item() for x in preds]
 tt['label'] = preds
 
 tt.to_csv('ds/submit.csv', header=None, index=False)
+
+
+
+'''
+目前线上成绩最好0.864的是单个efficientnet-b5模型跑出，需要加载b5预训练参数（图片resize到456*456）
+'''
