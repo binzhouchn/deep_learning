@@ -16,6 +16,6 @@ model_urls = {
 }
 
 # 4. vision transformer(deit)
-https://github.com/facebookresearch/deit
+https://github.com/facebookresearch/deit #需要安装timm==0.3.2
 https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py
 模型以及预训练模型文件链接都在第二个网址中
