@@ -15,4 +15,7 @@ model_urls = {
     'resnext101_32x8d': 'https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth',
 }
 
-# 4. xx
+# 4. vision transformer(deit)
+https://github.com/facebookresearch/deit
+https://github.com/rwightman/pytorch-image-models/blob/master/timm/models/vision_transformer.py
+模型以及预训练模型文件链接都在第二个网址中
