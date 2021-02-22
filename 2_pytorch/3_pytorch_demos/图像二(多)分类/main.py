@@ -22,6 +22,8 @@ from .models.byobnet import gernet_l, repvgg_b2
 gpu_list = '0'
 os.environ["CUDA_VISIBLE_DEVICES"] = gpu_list
 
+nn.ConvTranspose2d
+
 
 class args:
     batch_size = 32
