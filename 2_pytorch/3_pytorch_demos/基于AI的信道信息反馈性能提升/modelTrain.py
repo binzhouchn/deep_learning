@@ -6,6 +6,7 @@ import os
 import torch.nn as nn
 import scipy.io as sio
 import random
+from torch.optim import lr_scheduler
 #=======================================================================================================================
 #=======================================================================================================================
 # Parameters Setting for Data
@@ -37,7 +38,7 @@ mat = sio.loadmat('channelData/H_4T4R.mat')
 data = mat['H_4T4R']
 data = data.astype('float32')
 data = np.reshape(data, (len(data), CHANNEL_SHAPE_DIM1, CHANNEL_SHAPE_DIM2, CHANNEL_SHAPE_DIM3))
-split = int(data.shape[0] * 0.8)
+split = int(data.shape[0] * 0.9) #一共6w数据
 data_train, data_test = data[:split], data[split:]
 train_dataset = DatasetFolder(data_train)
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, pin_memory=True)
@@ -56,8 +57,8 @@ optimizer = torch.optim.Adam(autoencoderModel.parameters(), lr=LEARNING_RATE)
 bestLoss = 0.1
 for epoch in range(EPOCHS):
     autoencoderModel.train()
-    if epoch%11==10:
-        optimizer.param_groups[0]['lr'] =  optimizer.param_groups[0]['lr'] * 0.87
+    scheduler = lr_scheduler.StepLR(optimizer, 10, 0.91)  # 每过10个epoch，学习率乘以0.91
+    print('current learning rate: ', optimizer.param_groups[0]['lr'])
     for i, autoencoderInput in enumerate(train_loader):
         autoencoderInput = autoencoderInput.cuda()
         autoencoderOutput = autoencoderModel(autoencoderInput)
