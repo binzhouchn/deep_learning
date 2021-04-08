@@ -510,8 +510,8 @@ callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
 
 class CustomCallback(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
-        encModel.save('./drive/My Drive/encoder%s.h5'%epoch)
-        decModel.save('./drive/My Drive/decoder%s.h5'%epoch)
+        encModel.save('./save/models/encoder%s.h5'%epoch)
+        decModel.save('./save/models/decoder%s.h5'%epoch)
 cb2 = CustomCallback()
 
 def NMSE_cuda_loss(y_true, y_pred):
