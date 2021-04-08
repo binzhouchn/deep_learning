@@ -3,10 +3,12 @@
 
 # In[1]:
 
-
+import tensorflow as tf
 import numpy as np
 from tensorflow import keras
+from tensorflow.keras import layers
 import scipy.io as sio
+
 # from adabelief_tf import AdaBeliefOptimizer
 
 # Parameters Setting
@@ -28,17 +30,15 @@ data = np.reshape(data, (len(data), CHANNEL_SHAPE_DIM1, CHANNEL_SHAPE_DIM2, CHAN
 
 # In[2]:
 
-
-import numpy as np
-import tensorflow as tf
-from tensorflow import keras
-from tensorflow.keras import layers
-
 def Num2Bit(Num, B):
     Num_ = Num.numpy()
-    bit = (np.unpackbits(np.array(Num_, np.uint8), axis=1).reshape(-1, Num_.shape[1], 8)[:, :, (8-B):]).reshape(-1,Num_.shape[1] * B)
+    bit = (np.unpackbits(np.array(Num_, np.uint8), axis=1).reshape(-1, Num_.shape[1], 8)[:, :, (8 - B):]).reshape(-1,
+                                                                                                                  Num_.shape[
+                                                                                                                      1] * B)
     bit.astype(np.float32)
     return tf.convert_to_tensor(bit, dtype=tf.float32)
+
+
 # Bit to Number Function Defining
 def Bit2Num(Bit, B):
     Bit_ = Bit.numpy()
@@ -48,46 +48,62 @@ def Bit2Num(Bit, B):
     for i in range(B):
         num = num + Bit_[:, :, i] * 2 ** (B - 1 - i)
     return tf.cast(num, dtype=tf.float32)
-#=======================================================================================================================
-#=======================================================================================================================
+
+
+# =======================================================================================================================
+# =======================================================================================================================
 # Quantization and Dequantization Layers Defining
 @tf.custom_gradient
 def QuantizationOp(x, B):
     step = tf.cast((2 ** B), dtype=tf.float32)
     result = tf.cast((tf.round(x * step - 0.5)), dtype=tf.float32)
     result = tf.py_function(func=Num2Bit, inp=[result, B], Tout=tf.float32)
+
     def custom_grad(dy):
         grad = dy
         return (grad, grad)
+
     return result, custom_grad
+
+
 class QuantizationLayer(tf.keras.layers.Layer):
-    def __init__(self, B,**kwargs):
+    def __init__(self, B, **kwargs):
         self.B = B
         super(QuantizationLayer, self).__init__()
+
     def call(self, x):
         return QuantizationOp(x, self.B)
+
     def get_config(self):
         # Implement get_config to enable serialization. This is optional.
         base_config = super(QuantizationLayer, self).get_config()
         base_config['B'] = self.B
         return base_config
+
+
 @tf.custom_gradient
 def DequantizationOp(x, B):
-    
     x = tf.py_function(func=Bit2Num, inp=[x, B], Tout=tf.float32)
-    x.set_shape((None, int(NUM_FEEDBACK_BITS/num_quan_bits)))#tf2.2+版本经过py_function以后需要手动set_shape不然出来的shape是<unknown>
+    x.set_shape(
+        (None, int(NUM_FEEDBACK_BITS / num_quan_bits)))  # tf2.2+版本经过py_function以后需要手动set_shape不然出来的shape是<unknown>
     step = tf.cast((2 ** B), dtype=tf.float32)
     result = tf.cast((x + 0.5) / step, dtype=tf.float32)
+
     def custom_grad(dy):
         grad = dy * 1
         return (grad, grad)
+
     return result, custom_grad
+
+
 class DeuantizationLayer(tf.keras.layers.Layer):
-    def __init__(self, B,**kwargs):
+    def __init__(self, B, **kwargs):
         self.B = B
         super(DeuantizationLayer, self).__init__()
+
     def call(self, x):
         return DequantizationOp(x, self.B)
+
     def get_config(self):
         base_config = super(DeuantizationLayer, self).get_config()
         base_config['B'] = self.B
@@ -97,9 +113,6 @@ class DeuantizationLayer(tf.keras.layers.Layer):
 import numpy as np
 import tensorflow as tf
 import tensorflow.keras.layers as L
-# import tensorflow_addons as tfa
-
-
 
 
 class SqueezeExciteLayer(L.Layer):
@@ -113,18 +126,18 @@ class SqueezeExciteLayer(L.Layer):
     def build(self, input_shape):
         orig_size = input_shape[-1]
         squeeze_size = max(orig_size // self.ratio, 4)
-        
+
         self.pool = L.GlobalAveragePooling2D()
         self.dense1 = L.Dense(squeeze_size, activation='relu')
         self.dense2 = L.Dense(orig_size, activation='sigmoid')
-        
+
     def call(self, batch_input):
         x = self.pool(batch_input)
         x = self.dense1(x)
         x = self.dense2(x)
         x = tf.reshape(x, shape=(-1, 1, 1, batch_input.shape[-1]))
         return x * batch_input
-    
+
     def get_config(self):
         cfg = super().get_config()
         cfg.update({'ratio': self.ratio})
@@ -142,34 +155,40 @@ def NMSE(x, x_hat):
     mse = np.sum(abs(x_C - x_hat_C) ** 2, axis=1)
     nmse = np.mean(mse / power)
     return nmse
+
+
 def get_custom_objects():
-    return {"QuantizationLayer":QuantizationLayer,"DeuantizationLayer":DeuantizationLayer, "SqueezeExciteLayer": SqueezeExciteLayer}
+    return {"QuantizationLayer": QuantizationLayer, "DeuantizationLayer": DeuantizationLayer,
+            "SqueezeExciteLayer": SqueezeExciteLayer}
+
 
 # Comliling
 def NMSE_cuda_loss(y_true, y_pred):
-    y_true = y_true-0.5
-    y_pred = y_pred-0.5
-    mse = tf.reduce_sum(tf.square(y_true-y_pred) , axis=(1,2,3))
-    dominator = tf.reduce_sum(tf.square(y_true) , axis=(1,2,3))
-    nmse = mse/dominator
+    y_true = y_true - 0.5
+    y_pred = y_pred - 0.5
+    mse = tf.reduce_sum(tf.square(y_true - y_pred), axis=(1, 2, 3))
+    dominator = tf.reduce_sum(tf.square(y_true), axis=(1, 2, 3))
+    nmse = mse / dominator
 
     # ssim = nmse*tf.image.ssim(y_true, y_pred, 1, filter_size=11, filter_sigma=1.5, k1=0.01, k2=0.03)
     # nmse = nmse * tf.math.exp((nmse-0.1)*2)
-    
-    return tf.reduce_mean(nmse) 
+
+    return tf.reduce_mean(nmse)
+
 
 def NMSE_cuda(y_true, y_pred):
-    y_true = y_true-0.5
-    y_pred = y_pred-0.5
-    mse = tf.reduce_sum(tf.square(y_true-y_pred) , axis=(1,2,3))
-    dominator = tf.reduce_sum(tf.square(y_true) , axis=(1,2,3))
-    nmse = mse/dominator
-    
+    y_true = y_true - 0.5
+    y_pred = y_pred - 0.5
+    mse = tf.reduce_sum(tf.square(y_true - y_pred), axis=(1, 2, 3))
+    dominator = tf.reduce_sum(tf.square(y_true), axis=(1, 2, 3))
+    nmse = mse / dominator
+
     return nmse
 
 
 def ssim_loss(y_true, y_pred):
-  return tf.image.ssim(y_true, y_pred, 1, filter_size=11, filter_sigma=1.5, k1=0.01, k2=0.03)
+    return tf.image.ssim(y_true, y_pred, 1, filter_size=11, filter_sigma=1.5, k1=0.01, k2=0.03)
+
 
 class NMSE_metric(tf.keras.metrics.Metric):
     def __init__(self, name="NMSE", **kwargs):
@@ -178,12 +197,13 @@ class NMSE_metric(tf.keras.metrics.Metric):
         self.count = self.add_weight(name="ctp", initializer="zeros")
 
     def update_state(self, y_true, y_pred, sample_weight=None):
-        self.true_positives.assign_add( tf.reduce_mean(NMSE_cuda(y_true, y_pred)) )
+        self.true_positives.assign_add(tf.reduce_mean(NMSE_cuda(y_true, y_pred)))
         # self.true_positives.assign( tf.reduce_mean(NMSE_cuda(y_true, y_pred)) )
 
         self.count.assign_add(1)
+
     def result(self):
-        return self.true_positives/self.count
+        return self.true_positives / self.count
         # return self.true_positives
 
     def reset_states(self):
@@ -216,12 +236,13 @@ class Rezero(layers.Layer):
         x = res + x * self.resweight
         return x
 
+
 class Noise(layers.Layer):
     def __init__(self, *args, **kwargs):
         super(Noise, self).__init__(*args, **kwargs)
 
     def build(self, input_shape):
-       pass
+        pass
 
     def call(self, h):
         noise = tf.keras.backend.random_normal(shape=tf.shape(h))
@@ -235,6 +256,7 @@ def add_common_layers(y):
     y = keras.layers.PReLU()(y)
     # y = layers.Activation(tf.nn.swish)(y)
     return y
+
 
 def __grouped_convolution_block(input, grouped_channels, cardinality, strides, weight_decay=0):
     ''' Adds a grouped convolution block. It is an equivalent block from the paper
@@ -291,7 +313,6 @@ def __bottleneck_block(input, filters=96, cardinality=16, strides=1, weight_deca
     grouped_channels = int(filters / cardinality)
     channel_axis = -1
 
-
     if init.shape[-1] != 2 * filters:
         init = Conv2D(filters * 2, (1, 1), padding='same', strides=(strides, strides),
                       use_bias=False, kernel_initializer='he_normal', kernel_regularizer=l2(weight_decay))(init)
@@ -310,12 +331,10 @@ def __bottleneck_block(input, filters=96, cardinality=16, strides=1, weight_deca
     x = BatchNormalization(axis=channel_axis)(x)
     x = SqueezeExciteLayer(16)(x)
 
-
     x = add([init, x])
     x = layers.PReLU()(x)
 
     return x
-
 
 
 def ACR_DEC(x, k=8):
@@ -323,35 +342,41 @@ def ACR_DEC(x, k=8):
 
     return x
 
+
 def ACR_ENC(x):
     res = x
     input_ch = x.shape[-1]
 
-    x = layers.Conv2D(input_ch, kernel_size=(1,9), strides=1, padding='same', data_format='channels_last', use_bias=False)(x)
+    x = layers.Conv2D(input_ch, kernel_size=(1, 9), strides=1, padding='same', data_format='channels_last',
+                      use_bias=False)(x)
     x = add_common_layers(x)
 
-    x = layers.Conv2D(input_ch, kernel_size=(9,1), strides=1, padding='same', data_format='channels_last', use_bias=False)(x)
+    x = layers.Conv2D(input_ch, kernel_size=(9, 1), strides=1, padding='same', data_format='channels_last',
+                      use_bias=False)(x)
     x = layers.BatchNormalization()(x)
 
     x = SqueezeExciteLayer(16)(x)
 
-    x = layers.PReLU()(x+res)
+    x = layers.PReLU()(x + res)
 
     return x
+
 
 def ACR_ENC2(x):
     res = x
     input_ch = x.shape[-1]
 
-    x = layers.Conv2D(input_ch, kernel_size=(1,3), strides=1, padding='same', data_format='channels_last', use_bias=False)(x)
+    x = layers.Conv2D(input_ch, kernel_size=(1, 3), strides=1, padding='same', data_format='channels_last',
+                      use_bias=False)(x)
     x = add_common_layers(x)
 
-    x = layers.Conv2D(input_ch, kernel_size=(3,1), strides=1, padding='same', data_format='channels_last', use_bias=False)(x)
+    x = layers.Conv2D(input_ch, kernel_size=(3, 1), strides=1, padding='same', data_format='channels_last',
+                      use_bias=False)(x)
     x = layers.BatchNormalization()(x)
 
     x = SqueezeExciteLayer(16)(x)
 
-    x = layers.PReLU()(x+res)
+    x = layers.PReLU()(x + res)
 
     return x
 
@@ -370,66 +395,64 @@ def ACR_ENC2(x):
 # num_quan_bits = 3
 
 
-def Encoder(enc_input,num_feedback_bits):
+def Encoder(enc_input, num_feedback_bits):
     num_quan_bits = 3
 
-    h = enc_input-0.5
+    h = enc_input - 0.5
     h0 = layers.BatchNormalization()(h)
 
-	# 使用这个版本的模型可能会出现过拟合，这里的结构仅供参考
-	
-    h = layers.concatenate([h0[:,:,:,0], h0[:,:,:,1]], axis=-1)
+    # 使用这个版本的模型可能会出现过拟合，这里的结构仅供参考
 
-    for i in range(1,5):
-      h1 = layers.Conv1D(filters=512//(2**i), kernel_size=1, padding='same', activation='linear')(h)
-      h1 = add_common_layers(h1)
-      h3 = layers.Conv1D(filters=512//(2**i), kernel_size=3, padding='same', activation='linear')(h)
-      h3 = add_common_layers(h3)
-      h5 = layers.Conv1D(filters=512//(2**i), kernel_size=5, padding='same', activation='linear')(h)
-      h5 = add_common_layers(h5)
+    h = layers.concatenate([h0[:, :, :, 0], h0[:, :, :, 1]], axis=-1)
 
-      h = layers.concatenate([h1, h3, h5], axis=-1)
+    for i in range(1, 5):
+        h1 = layers.Conv1D(filters=512 // (2 ** i), kernel_size=1, padding='same', activation='linear')(h)
+        h1 = add_common_layers(h1)
+        h3 = layers.Conv1D(filters=512 // (2 ** i), kernel_size=3, padding='same', activation='linear')(h)
+        h3 = add_common_layers(h3)
+        h5 = layers.Conv1D(filters=512 // (2 ** i), kernel_size=5, padding='same', activation='linear')(h)
+        h5 = add_common_layers(h5)
+
+        h = layers.concatenate([h1, h3, h5], axis=-1)
 
     h = layers.Conv1D(filters=16, kernel_size=1, padding='same', activation='linear')(h)
     h = add_common_layers(h)
 
     h_last = layers.Flatten()(h)
 
-
-    conv1 = layers.Conv2D(128, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False, kernel_initializer='he_normal')
+    conv1 = layers.Conv2D(128, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False,
+                          kernel_initializer='he_normal')
     h = conv1(h0)
     h = add_common_layers(h)
 
-
     h = ACR_ENC(h)
     h = ACR_ENC(h)
     h = ACR_ENC2(h)
     h = ACR_ENC2(h)
 
-
-    conv2 = layers.Conv2D(256, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False, kernel_initializer='he_normal')
+    conv2 = layers.Conv2D(256, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False,
+                          kernel_initializer='he_normal')
     h = conv2(h)
     h = add_common_layers(h)
 
-
-
     h = ACR_ENC(h)
     h = ACR_ENC(h)
 
-
-    conv3 = layers.Conv2D(512, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False, kernel_initializer='he_normal')
+    conv3 = layers.Conv2D(512, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False,
+                          kernel_initializer='he_normal')
     h = conv3(h)
     h = add_common_layers(h)
 
-    h = layers.Conv2D(8, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False, kernel_initializer='he_normal')(h)
+    h = layers.Conv2D(8, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False,
+                      kernel_initializer='he_normal')(h)
     h = layers.BatchNormalization()(h)
 
     h = layers.Flatten()(h)
 
     h = layers.concatenate([h, h_last], axis=-1)
 
-
-    h = layers.Dense(units=int(num_feedback_bits / num_quan_bits), activation='linear', kernel_initializer='he_normal')(h)
+    h = layers.Dense(units=int(num_feedback_bits / num_quan_bits), activation='linear', kernel_initializer='he_normal')(
+        h)
     h = layers.BatchNormalization()(h)
     h = layers.Activation('sigmoid', name='input_feat')(h)
 
@@ -445,38 +468,38 @@ def Encoder(enc_input,num_feedback_bits):
 # In[5]:
 
 
-def Decoder(dec_input,num_feedback_bits):
+def Decoder(dec_input, num_feedback_bits):
     num_quan_bits = 3
-#     print('xx1x', dec_input.shape)
+    #     print('xx1x', dec_input.shape)
     h = DeuantizationLayer(num_quan_bits)(dec_input)
-#     print('xx2x', h.shape)
-    h = tf.keras.layers.Reshape((int(num_feedback_bits/num_quan_bits), ))(h)
-    h = tf.math.log((1/h-1))
+    #     print('xx2x', h.shape)
+    h = tf.keras.layers.Reshape((int(num_feedback_bits / num_quan_bits),))(h)
+    h = tf.math.log((1 / h - 1))
 
-    h = layers.Dense(24*16*2, activation='linear')(h)
-    h = tf.keras.layers.Reshape((24,16,2))(h)
+    h = layers.Dense(24 * 16 * 2, activation='linear')(h)
+    h = tf.keras.layers.Reshape((24, 16, 2))(h)
     h = layers.BatchNormalization()(h)
 
     h = layers.Conv2D(256, kernel_size=3, strides=1, padding='same', data_format='channels_last', use_bias=False)(h)
     h = layers.BatchNormalization()(h)
 
     for i in range(9):
-      res = h
-      num_ch = h.shape[-1]
-      h = layers.Conv2D(num_ch*2, kernel_size=(1, 9), padding='same', data_format='channels_last', use_bias=False)(res)
-      h = add_common_layers(h)
-      h = layers.Conv2D(num_ch, kernel_size=(3, 3), padding='same', data_format='channels_last', use_bias=False)(h)
-      h = layers.BatchNormalization()(h)
-      
-      h = res + h*(0.7**(i+1))
-      h = layers.PReLU()(h)
+        res = h
+        num_ch = h.shape[-1]
+        h = layers.Conv2D(num_ch * 2, kernel_size=(1, 9), padding='same', data_format='channels_last', use_bias=False)(
+            res)
+        h = add_common_layers(h)
+        h = layers.Conv2D(num_ch, kernel_size=(3, 3), padding='same', data_format='channels_last', use_bias=False)(h)
+        h = layers.BatchNormalization()(h)
 
-      h = ACR_DEC(h)
-      
-      
+        h = res + h * (0.7 ** (i + 1))
+        h = layers.PReLU()(h)
+
+        h = ACR_DEC(h)
+
     h = layers.Conv2D(2, kernel_size=(3, 3), padding='same', data_format='channels_last')(h)
 
-    dec_output = h/10000+0.5
+    dec_output = h / 10000 + 0.5
 
     return dec_output
 
@@ -495,7 +518,6 @@ decInput = keras.Input(shape=(NUM_FEEDBACK_BITS,))
 decOutput = Decoder(decInput, NUM_FEEDBACK_BITS)
 decModel = keras.Model(inputs=decInput, outputs=decOutput, name="Decoder")
 
-
 autoencoderInput = keras.Input(shape=(CHANNEL_SHAPE_DIM1, CHANNEL_SHAPE_DIM2, CHANNEL_SHAPE_DIM3))
 h = encModel(autoencoderInput)
 autoencoderOutput = decModel(h)
@@ -505,23 +527,28 @@ autoencoderModel = keras.Model(inputs=autoencoderInput, outputs=autoencoderOutpu
 
 def scheduler(epoch, lr):
     return max(lr * 0.9, 5e-6)
+
+
 callback = tf.keras.callbacks.LearningRateScheduler(scheduler)
 
 
 class CustomCallback(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
-        encModel.save('./save/models/encoder%s.h5'%epoch)
-        decModel.save('./save/models/decoder%s.h5'%epoch)
+        encModel.save('./save/models/encoder%s.h5' % epoch)
+        decModel.save('./save/models/decoder%s.h5' % epoch)
+
+
 cb2 = CustomCallback()
 
+
 def NMSE_cuda_loss(y_true, y_pred):
-    y_true = y_true-0.5
-    y_pred = y_pred-0.5
-    mse = tf.reduce_sum(tf.square(y_true-y_pred) , axis=(1,2,3))
-    dominator = tf.reduce_sum(tf.square(y_true) , axis=(1,2,3))
-    nmse = mse/dominator
- 
-    return tf.reduce_mean(nmse) 
+    y_true = y_true - 0.5
+    y_pred = y_pred - 0.5
+    mse = tf.reduce_sum(tf.square(y_true - y_pred), axis=(1, 2, 3))
+    dominator = tf.reduce_sum(tf.square(y_true), axis=(1, 2, 3))
+    nmse = mse / dominator
+
+    return tf.reduce_mean(nmse)
 
 
 loss = NMSE_cuda_loss
@@ -530,19 +557,16 @@ optimizer = tf.keras.optimizers.Adam(learning_rate=0.002, epsilon=1e-14)
 autoencoderModel.compile(optimizer=optimizer, loss=loss, metrics=[NMSE_metric()])
 print(autoencoderModel.summary())
 
-autoencoderModel.fit(x=data, y=data, 
-            batch_size=128, 
-            epochs=100, 
-            verbose=1, 
-            validation_split=0.05, 
-            shuffle=True, 
-            callbacks=[callback, cb2]
-            )
-
+autoencoderModel.fit(x=data, y=data,
+                     batch_size=128,
+                     epochs=100,
+                     verbose=1,
+                     validation_split=0.05,
+                     shuffle=True,
+                     callbacks=[callback, cb2]
+                     )
 
 # In[ ]:
-
-
 
 
 '''md
@@ -618,7 +642,3 @@ autoencoderModel = keras.Model(inputs=autoencoderInput, outputs=autoencoderOutpu
 
 ```
 '''
-
-
-
-
