@@ -75,7 +75,7 @@ class QuantizationLayer(tf.keras.layers.Layer):
 def DequantizationOp(x, B):
     
     x = tf.py_function(func=Bit2Num, inp=[x, B], Tout=tf.float32)
-    x.set_shape((None, int(NUM_FEEDBACK_BITS/num_quan_bits)))
+    x.set_shape((None, int(NUM_FEEDBACK_BITS/num_quan_bits)))#tf2.2+版本经过py_function以后需要手动set_shape不然出来的shape是<unknown>
     step = tf.cast((2 ** B), dtype=tf.float32)
     result = tf.cast((x + 0.5) / step, dtype=tf.float32)
     def custom_grad(dy):
