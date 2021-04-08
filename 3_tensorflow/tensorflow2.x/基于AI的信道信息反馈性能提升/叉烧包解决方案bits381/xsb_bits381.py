@@ -530,9 +530,6 @@ optimizer = tf.keras.optimizers.Adam(learning_rate=0.002, epsilon=1e-14)
 autoencoderModel.compile(optimizer=optimizer, loss=loss, metrics=[NMSE_metric()])
 print(autoencoderModel.summary())
 
-# encModel.save('./modelSubmit/encoder.h5')
-# decModel.save('./modelSubmit/decoder.h5')
-
 autoencoderModel.fit(x=data, y=data, 
             batch_size=128, 
             epochs=100, 
