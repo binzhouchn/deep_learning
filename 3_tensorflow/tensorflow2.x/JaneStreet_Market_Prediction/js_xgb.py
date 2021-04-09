@@ -27,6 +27,7 @@ print("XGBoost version:", xgb.__version__)
 from tqdm.notebook import tqdm
 import tensorflow as tf
 import cudf
+import datatable as dtable
 
 
 # ## 设置GPU
@@ -46,7 +47,8 @@ print(tf.config.get_visible_devices('GPU'))
 
 
 path = 'data/'
-train = cudf.read_csv(path+'train.csv').to_pandas()
+# train = cudf.read_csv(path+'train.csv').to_pandas()#用GPU加速读取
+train = dtable.fread(path+'train.csv').to_pandas()#用多线程多进程读取
 features = pd.read_csv(path+'features.csv')
 example_test = pd.read_csv(path+'example_test.csv')
 sample_prediction_df = pd.read_csv(path+'example_sample_submission.csv')
