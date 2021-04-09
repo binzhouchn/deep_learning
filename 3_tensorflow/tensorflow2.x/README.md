@@ -183,15 +183,15 @@ tf.gather(x, slice_idx)
 **12. 查看是否有GPU及相关设置**
 
 ```python
-gpus = tf.config.list_physical_devices("GPU")
+gpus = tf.config.experimental.list_physical_devices('GPU')
 
 if gpus:
-    gpu0 = gpus[0] #如果有多个GPU，仅使用第0个GPU
-    tf.config.experimental.set_memory_growth(gpu0, True) #设置GPU显存用量按需使用
+    gpu2 = gpus[2] #如果有多个GPU，仅使用第3个GPU
+    tf.config.experimental.set_memory_growth(gpu2, True) #设置GPU显存用量按需使用，可以不需要这行
     # 或者也可以设置GPU显存为固定使用量(例如：4G)
     #tf.config.experimental.set_virtual_device_configuration(gpu0,
     #    [tf.config.experimental.VirtualDeviceConfiguration(memory_limit=4096)]) 
-    tf.config.set_visible_devices([gpu0],"GPU")
+    tf.config.experimental.set_visible_devices(gpu2, 'GPU') #GPU='2'即用第三个GPU
 ```
 还有一种方法<br>
 ```python
