@@ -7,3 +7,5 @@
 [解决方案二参考 对应代码js_AE_MLP.py](https://www.kaggle.com/xiaowangiiiii/current-1th-jane-street-ae-mlp-xgb)<br>
 AE_MLP NN模型架构图<br>
 ![ae_mlp](../files/ae_mlp.png)
+
+[解决方案三参考 NN+XGB](https://www.kaggle.com/skloveyyp/janestreet-nn-xgb-ensemble/)<br>
