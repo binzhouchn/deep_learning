@@ -26,6 +26,7 @@ from sklearn.metrics import *
 print("XGBoost version:", xgb.__version__)
 from tqdm.notebook import tqdm
 import tensorflow as tf
+import cudf
 
 
 # ## 设置GPU
@@ -45,7 +46,7 @@ print(tf.config.get_visible_devices('GPU'))
 
 
 path = 'data/'
-train = pd.read_csv(path+'train.csv')
+train = cudf.read_csv(path+'train.csv').to_pandas()
 features = pd.read_csv(path+'features.csv')
 example_test = pd.read_csv(path+'example_test.csv')
 sample_prediction_df = pd.read_csv(path+'example_sample_submission.csv')
@@ -183,7 +184,6 @@ clf2.fit(X, y)
 # res = []
 # tofill = f_mean.values.reshape((1,-1))
 # for i in tqdm(range(1, len(example_test)+1)):
-# # for (_, test_df) in example_test.iterrows():
 #     test_df = example_test.iloc[i-1:i]
 #     if test_df['weight'].values[0] == 0:
 #         res.append(0)
@@ -193,7 +193,8 @@ clf2.fit(X, y)
 #             X_test[0,1:] = np.where(np.isnan(X_test[0,1:]), tofill, X_test[0,1:])
 #         y_preds = int((clf2.predict_proba(X_test)[0][1])>0.5)
 #         res.append(y_preds)
-
+##sum(res)
+##output: 6396
 
 # In[ ]:
 
