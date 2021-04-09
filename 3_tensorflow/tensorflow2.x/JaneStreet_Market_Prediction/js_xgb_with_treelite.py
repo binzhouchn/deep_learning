@@ -28,8 +28,8 @@ from tqdm.notebook import tqdm
 import tensorflow as tf
 import cudf
 import datatable as dtable
-import treelite
-import treelite_runtime
+import treelite#1.0.0
+import treelite_runtime#1.0.0
 
 # ## 设置GPU
 
