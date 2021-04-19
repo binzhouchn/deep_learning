@@ -34,6 +34,8 @@ bert测试数据集<br>
 
 ### bert模型下载pytorch版本
 
+[Hugging Face预训练模型下载](https://huggingface.co/hfl)<br>
+
 ```python
 PRETRAINED_MODEL_ARCHIVE_MAP = {
     'bert-base-uncased': "https://s3.amazonaws.com/models.huggingface.co/bert/bert-base-uncased-pytorch_model.bin",
