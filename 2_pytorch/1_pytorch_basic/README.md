@@ -18,6 +18,8 @@
 
 [**9. 中文tokenizer**](#中文tokenizer)
 
+[**10. Accelerate: 适用于多GPU、TPU、混合精度训练**](#accelerate)
+
 ---
 
 ## 得到模型参数数量
@@ -372,6 +374,45 @@ if __name__ == '__main__':
     a = BasicTokenizer()
     print(a.tokenize("我是Im chinese中国人hhh啊~"))
 
+```
+
+### accelerate
+
+[Hugging Face发布PyTorch新库「Accelerate」：适用于多GPU、TPU、混合精度训练](https://mp.weixin.qq.com/s/-AjNv3E7NUkGGIruAm_SvQ)<br>
+```python
+# +为代码增加项，-为减项
+import torch
+  import torch.nn.functional as F
+  from datasets import load_dataset
++ from accelerate import Accelerator
+
++ accelerator = Accelerator()
+- device = 'cpu'
++ device = accelerator.device
+
+  model = torch.nn.Transformer().to(device)
+  optim = torch.optim.Adam(model.parameters())
+
+  dataset = load_dataset('my_dataset')
+  data = torch.utils.data.DataLoader(dataset, shuffle=True)
+
++ model, optim, data = accelerator.prepare(model, optim, data)
+
+  model.train()
+  for epoch in range(10):
+      for source, targets in data:
+          source = source.to(device)
+          targets = targets.to(device)
+
+          optimizer.zero_grad()
+
+          output = model(source)
+          loss = F.cross_entropy(output, targets)
+
+-         loss.backward()
++         accelerator.backward(loss)
+
+          optimizer.step()
 ```
 
 ---
