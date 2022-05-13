@@ -14,11 +14,13 @@
 
 [**7. pytorch自定义矩阵W**](#pytorch自定义矩阵w)
 
-[**8. pytorch embedding设置不可导**](#pytorch_embedding设置不可导)
+[**8. 自定义操作torch.autograd.Function**](#autograd)
 
-[**9. 中文tokenizer**](#中文tokenizer)
+[**9. pytorch embedding设置不可导**](#pytorch_embedding设置不可导)
 
-[**10. Accelerate: 适用于多GPU、TPU、混合精度训练**](#accelerate)
+[**10. 中文tokenizer**](#中文tokenizer)
+
+[**11. Accelerate: 适用于多GPU、TPU、混合精度训练**](#accelerate)
 
 ---
 
@@ -172,6 +174,10 @@ optimizer = Adam(dcaps.parameters(),lr=0.001)
 ```
 
 [和Keras build里面的self.add_weight是一样的](https://keras.io/zh/layers/writing-your-own-keras-layers/)
+
+## autograd
+
+[PyTorch 74.自定义操作torch.autograd.Function - 讲的很好](https://zhuanlan.zhihu.com/p/344802526)
 
 ### pytorch_embedding设置不可导
 
