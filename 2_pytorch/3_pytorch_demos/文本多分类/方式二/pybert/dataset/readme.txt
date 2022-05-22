@@ -1,0 +1,1 @@
+train.csv和dev.csv都在最外层THUCNews
