@@ -1,0 +1,1 @@
+去https://huggingface.co/junnyu/roformer_chinese_sim_char_ft_base/tree/main下载即可
