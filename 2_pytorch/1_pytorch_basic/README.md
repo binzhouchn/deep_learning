@@ -22,6 +22,8 @@
 
 [**11. Accelerate: 适用于多GPU、TPU、混合精度训练**](#accelerate)
 
+[**12. pytorch删除一层网络**](#pytorch删除一层网络)
+
 ---
 
 ## 得到模型参数数量
@@ -421,6 +423,50 @@ import torch
           optimizer.step()
 ```
 
+### pytorch删除一层网络
+
+删除最后一层为例<br>
+```python
+from sentence_transformers import SentenceTransformer, util
+from torch import nn
+def load_tranformer_model():
+    from sentence_transformers import SentenceTransformer
+    model = SentenceTransformer('distiluse-base-multilingual-cased-v1') #distilbert-base-nli-stsb-mean-tokens #distiluse-base-multilingual-cased-v1
+    return model
+model = load_tranformer_model()
+print(model)
+'''
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 128, 'do_lower_case': False}) with Transformer model: DistilBertModel 
+  (1): Pooling({'word_embedding_dimension': 768, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+  (2): Dense({'in_features': 768, 'out_features': 512, 'bias': True, 'activation_function': 'torch.nn.modules.activation.Tanh'})
+)
+'''
+# 现在我想去掉最后一层Dense层
+new_model = SentenceTransformer(modules=list(model.children())[:-1])
+print(new_model)
+'''
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 128, 'do_lower_case': False}) with Transformer model: DistilBertModel 
+  (1): Pooling({'word_embedding_dimension': 768, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+)
+'''
+```
+
+修改最后一层<br
+比如最后Dense层需要将out_features从512改成100，那么需要先拿到原模型Dense的类，然后修改下后<br>
+```python
+new_model = SentenceTransformer(modules=(list(model.children())[:-1]+[Dense2(768,100)]))
+print(new_model)
+'''
+SentenceTransformer(
+  (0): Transformer({'max_seq_length': 128, 'do_lower_case': False}) with Transformer model: DistilBertModel 
+  (1): Pooling({'word_embedding_dimension': 768, 'pooling_mode_cls_token': False, 'pooling_mode_mean_tokens': True, 'pooling_mode_max_tokens': False, 'pooling_mode_mean_sqrt_len_tokens': False})
+  (2): Dense({'in_features': 768, 'out_features': 100, 'bias': True, 'activation_function': 'torch.nn.modules.activation.Tanh'})
+)
+
+'''
+```
 ---
 
 参考网址：
