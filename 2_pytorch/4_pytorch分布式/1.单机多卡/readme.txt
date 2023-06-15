@@ -9,7 +9,7 @@ torchvision==0.13.1+cu102
 
 ```
 export CUDA_VISIBLE_DEVICES=2,3
-torchrun --nproc_per_node=2 main.py
+torchrun --nproc_per_node=2 main.py #或者 python -m torch.distributed.launch --nproc_per_node=2 --nnodes=1 main.py 
 ```
 
 10000数据 单卡一个GPU 23.4s
