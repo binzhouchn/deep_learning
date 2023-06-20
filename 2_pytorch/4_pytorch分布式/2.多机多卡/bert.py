@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # author = 'binzhou'
-# time = 2023/6/18
+# time = 2023/6/19
 import argparse
 import time
 import random
@@ -132,16 +132,16 @@ if __name__ == '__main__':
             #保存模型
             if args.rank == 0 and valid_acc > best_acc:
                 best_acc = valid_acc
-                print('best_acc: ', best_acc)
+                print('current epoch: ', epoch, '; best_acc: ', best_acc)
                 torch.save(net.state_dict(), ckpt_path)#net.module.cpu().state_dict()
 
             dist.barrier()
 
-            device_id = args.rank % torch.cuda.device_count()
-            map_location = {'cuda:0': f'cuda:{device_id}'}
-            state_dict = torch.load(ckpt_path, map_location=map_location)
-            print(f'rank {args.rank}: {state_dict}')
-            net.load_state_dict(state_dict)
+            # device_id = args.rank % torch.cuda.device_count()
+            # map_location = {'cuda:0': f'cuda:{device_id}'}
+            # state_dict = torch.load(ckpt_path, map_location=map_location)
+            # print(f'rank {args.rank}: {state_dict}')
+            # net.load_state_dict(state_dict)
 
     if args.local_rank == 0:
         tb_writer.close()
