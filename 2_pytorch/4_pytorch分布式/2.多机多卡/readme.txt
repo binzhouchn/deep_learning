@@ -17,4 +17,6 @@
 
 
 注：
-Bert-binary-classification-en-v1.tar 没有模型保存的加载模块
+Bert-binary-classification-en-v1.tar 没有模型保存和加载模块
+
+Bert-binary-classification-en-v2.tar 模型有保存和加载(predict.py)模块
