@@ -7,8 +7,26 @@
  - Anaconda3-2022.05-Linux-x86_64.sh
  - pip install torch==1.12.1+cu102 torchvision==0.13.1+cu102 -f https://download.pytorch.org/whl/torch_stable.html -i https://pypi.tuna.tsinghua.edu.cn/simple some-package
  - transformers==4.23.1; tensorboard==2.13.0
+ - tensorflow==2.10.0
+ - pytools==2020.4.3
+ - Mako==1.1.4
 
-2.代码准备
+2.环境准备-tensorRT加速(optional)
+
+ 跑Bert-binary-classification-en-v2.tar代码加速还是比较明显的
+ 15:43 16:07 -> 24分钟 (未装tensorRT)
+ 14:31 14:45 -> 14分钟（装tensorRT）
+
+  - pycuda-2020.1下载解压编码
+  '''
+   python3 configure.py --cuda-root=/usr/local/cuda-11.3
+   make -j 4     # 解决各种的关键步骤，先编译
+   python3 setup.py install
+  '''
+  - 然后看https://blog.51cto.com/u_15905131/5918414网址中 二、TensorRT配置即可
+
+
+3.代码准备
 
  - 把代码和数据放到所有服务器上，确保代码和数据一模一样
  - bert.sh中确保主节点--node_rank=0，从节点--node_rank=1（如果有更多台机器，则=2,3,4等）
@@ -20,4 +38,4 @@
 注：
 Bert-binary-classification-en-v1.tar 没有模型保存和加载模块
 
-Bert-binary-classification-en-v2.tar 模型有保存和加载(predict.py)模块
+Bert-binary-classification-en-v2.tar 模型有保存和加载(predict.py)模块【推荐】
