@@ -24,6 +24,7 @@
    python3 setup.py install
   '''
   - 然后看https://blog.51cto.com/u_15905131/5918414网址中 二、TensorRT配置即可
+  - (遇到libnvinfer.so.7和libnvinfer_plugin.so.7找不到问题，把TensorRT-8.4.0.6/lib/下对应的文件.8改成.7即可)
 
 
 3.代码准备
