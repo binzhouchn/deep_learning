@@ -12,10 +12,70 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from model import SentimentClassifier
 from dataloader import SSTDataset
+import deepspeed
+# from deepspeed.ops.adam import DeepSpeedCPUAdam
+
+from accelerate.state import AcceleratorState
 
 
-from accelerate import Accelerator
-accelerator = Accelerator()
+from accelerate import Accelerator, DeepSpeedPlugin
+deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=4)
+accelerator = Accelerator(mixed_precision='bf16', gradient_accumulation_steps=4, deepspeed_plugin=deepspeed_plugin)
+
+
+def get_eval_ds_config(offload=None, stage=3):
+    deepspeed_states = AcceleratorState().deepspeed_plugin
+
+    device = "cpu" if offload else "none"
+    zero_opt_dict = {
+        "stage": stage,
+        "stage3_param_persistence_threshold": 1e4,
+        "offload_param": {
+            "device": device,
+            "pin_memory": True
+        },
+        "offload_optimizer":{
+            "device": device,
+            "pin_memory": True
+        }
+    }
+    return {
+        "train_micro_batch_size_per_gpu": deepspeed_states.deepspeed_config['train_micro_batch_size_per_gpu'],
+        "steps_per_print": 10,
+        "zero_optimization": zero_opt_dict,
+        "bf16": {
+            "enabled": True
+        },
+        "gradient_clipping": 1.0,
+        "prescale_gradients": False,
+        "wall_clock_breakdown": False
+    }
+# def get_parms(model, lr):
+#     no_decay = ["bias", "LayerNorm.weight"]
+#     params = [
+#     {
+#         "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
+#         "weight_decay": 0.0,
+#         "lr": lr
+#     },
+#     {
+#         "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
+#         "weight_decay": 0.0,
+#         "lr": lr
+#     },
+#     ]
+#     return params
+
+# def build_optimizer():
+#     params = get_parms(ddp_net, 5e-6)
+#     deepspeed_states = AcceleratorState().deepspeed_plugin
+#     if deepspeed_states.deepspeed_config['zero_optimization']['offload_optimizer']['device'] in ('none', None):
+#         return torch.optim.AdamW(params)
+#     return DeepSpeedCPUAdam(params)
+
+def synchronize_if_distributed():
+    if accelerator.use_distributed:
+        accelerator.wait_for_everyone()
 
 def set_seed(seed):
     random.seed(seed)
@@ -38,7 +98,14 @@ if __name__ == '__main__':
     ddp_net = SentimentClassifier().to(device_id)
     batch_size = 16
     criterion = nn.CrossEntropyLoss()
+
     optim = torch.optim.Adam(ddp_net.parameters(), lr=5e-6)
+
+    # setup deepspeed
+    deepspeed_states = AcceleratorState().deepspeed_plugin
+    deepspeed_states.deepspeed_config['train_micro_batch_size_per_gpu'] = batch_size
+    deepspeed_states.deepspeed_config['checkpoint'] = {'use_node_local_storage': True}
+
 
     train_set = SSTDataset(filename='data/SST-2/train.tsv')
     train_loader = DataLoader(train_set, batch_size=batch_size)  # 注意这里的batch_size是每个GPU上的batch_size
@@ -48,11 +115,14 @@ if __name__ == '__main__':
     #new add
     ddp_net, optim, train_loader, val_loader = accelerator.prepare(ddp_net, optim, train_loader, val_loader)
 
+    # get untrainable model
+    eval_ds_config = get_eval_ds_config(offload=True)
+    ddp_net, *_ = deepspeed.initialize(model=ddp_net, config=eval_ds_config)
+
     for epoch in range(5):
         t = time.time()
         ddp_net.train()
         for index, (tokens, labels) in enumerate(train_loader):
-
             optim.zero_grad()
             labels = labels.to(device_id)
             input_ids = tokens['input_ids'].squeeze(1).to(device_id)
@@ -92,9 +162,10 @@ if __name__ == '__main__':
             mean_acc = total_acc.item() / count
             accelerator.print(f'epoch {epoch + 1}/{5}, acc = {mean_acc:.2f}')
             # 等待每个GPU上的模型执行完当前的epoch，并进行合并同步
-            accelerator.wait_for_everyone() 
+            # accelerator.wait_for_everyone() 
+            synchronize_if_distributed()
             ddp_net = accelerator.unwrap_model(ddp_net)
-            if (mean_acc > best_acc) and accelerator.is_main_process:
+            if mean_acc > best_acc:
                 best_acc = mean_acc
                 accelerator.save(ddp_net.state_dict(), ckpt_path) 
             '''
