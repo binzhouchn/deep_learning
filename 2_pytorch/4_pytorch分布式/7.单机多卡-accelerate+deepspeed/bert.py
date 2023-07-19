@@ -13,7 +13,7 @@ from torch.utils.tensorboard import SummaryWriter
 from model import SentimentClassifier
 from dataloader import SSTDataset
 import deepspeed
-# from deepspeed.ops.adam import DeepSpeedCPUAdam
+from deepspeed.ops.adam import DeepSpeedCPUAdam
 
 from accelerate.state import AcceleratorState
 
