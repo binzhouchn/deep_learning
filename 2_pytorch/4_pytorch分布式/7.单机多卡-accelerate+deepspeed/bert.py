@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # author = 'binzhou'
-# time = 2023/7/13
+# time = 2023/7/18
 import argparse
 import time
 import random
@@ -19,8 +19,8 @@ from accelerate.state import AcceleratorState
 
 
 from accelerate import Accelerator, DeepSpeedPlugin
-deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=4)
-accelerator = Accelerator(mixed_precision='bf16', gradient_accumulation_steps=4, deepspeed_plugin=deepspeed_plugin)
+deepspeed_plugin = DeepSpeedPlugin(zero_stage=2, gradient_accumulation_steps=2)
+accelerator = Accelerator(mixed_precision='fp16', gradient_accumulation_steps=2, deepspeed_plugin=deepspeed_plugin)
 
 
 def get_eval_ds_config(offload=None, stage=3):
@@ -116,8 +116,8 @@ if __name__ == '__main__':
     ddp_net, optim, train_loader, val_loader = accelerator.prepare(ddp_net, optim, train_loader, val_loader)
 
     # get untrainable model
-    eval_ds_config = get_eval_ds_config(offload=True)
-    ddp_net, *_ = deepspeed.initialize(model=ddp_net, config=eval_ds_config)
+    # eval_ds_config = get_eval_ds_config(offload=True)
+    # ddp_net, *_ = deepspeed.initialize(model=ddp_net, config=eval_ds_config)
 
     for epoch in range(5):
         t = time.time()
