@@ -8,7 +8,7 @@ export TORCH_DISTRIBUTED_DEBUG=INFO
 #export NCCL_IB_DISABLE=1
 #export NCCL_SOCKET_IFNAME=enp2s0f0
 #export NCCL_SOCKET_IFNAME="^lo,docker,virbr,vmnet,vboxnet,wl,ww,ppp"
-export NCCL_SOCKET_IFNAME=en,eth,em,bond
+export NCCL_SOCKET_IFNAME=en,eth,em,bond,ens
 
 
-accelerate launch --config_file accelerate_config.yaml bert.py
+accelerate launch --config_file accelerate_config.yaml bert_accelerate.py
