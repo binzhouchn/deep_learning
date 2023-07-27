@@ -62,8 +62,8 @@ if __name__ == '__main__':
     # optim = torch.optim.Adam(ddp_net.parameters(), lr=5e-6)
 
     total_epoch = 5
+    t = time.time()
     for epoch in range(total_epoch):
-        t = time.time()
         model_engine.train()
         for index, (tokens, labels) in enumerate(train_loader):
             model_engine.zero_grad()
@@ -80,7 +80,6 @@ if __name__ == '__main__':
                 pred_labels = torch.argmax(logits, dim=1)  # 预测出的label
                 acc = torch.sum(pred_labels == labels) / len(pred_labels)  # acc
                 print(f"{model_engine.local_rank} Train... [epoch {epoch + 1}/{total_epoch}, step {index + 1}/{len(train_loader)}]\t[loss {loss.item()} train_acc {acc} ]")
-        print("耗时:{}".format(time.time() - t))
 
         model_engine.eval()
         with torch.no_grad():
@@ -105,4 +104,4 @@ if __name__ == '__main__':
                 best_acc = mean_acc
                 print('save here!', model_engine.local_rank)
                 # accelerator.save(ddp_net.state_dict(), ckpt_path) 
-
+    print("总耗时:{}".format(time.time() - t))

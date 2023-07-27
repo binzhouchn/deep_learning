@@ -1,0 +1,46 @@
+【deepspeed zerostage测试：环境为单机多卡 4张V100】
+
+zerostage0:4192MB显存+7G内存               耗时：63s
+"zero_optimization": {
+        "stage": 0
+    },
+
+zerostage1:2836显存+8G内存                 耗时：57s
+"zero_optimization": {
+        "stage": 1
+    },
+
+zerostage2_offload_none:2794MB显存+8G内存  耗时：80s
+"zero_optimization": {
+        "stage": 2,
+        "offload_optimizer": {
+            "device": "none"
+        },
+        "offload_param": {
+            "device": "none"
+        },
+        "overlap_comm": true,
+        "contiguous_gradients": true,
+        "sub_group_size": 1e9,
+        "reduce_bucket_size": 1e6
+    },
+
+zerostage2_offload_cpu_param_cpu:2396MB显存+9G内存    耗时：251s
+"zero_optimization": {
+        "stage": 2,
+        "offload_optimizer": {
+            "device": "cpu",
+            "pin_memory": true
+        },
+        "offload_param": {
+            "device": "cpu",
+            "pin_memory": true
+        },
+        "overlap_comm": true,
+        "contiguous_gradients": true,
+        "sub_group_size": 1e9,
+        "reduce_bucket_size": 1e6
+    },
+
+zerostage3_offload_cpu_param_cpu:2356MB显存4卡+9G内存  太慢了! 耗时：1320s
+
