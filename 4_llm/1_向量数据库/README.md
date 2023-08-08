@@ -20,6 +20,7 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 
 
+## 3. Pinecone
 
 
 
@@ -27,5 +28,13 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 
 
+## 4. pgvector
 
-## 3. pgvector
+
+
+
+## 5. 云服务zilliz
+
+(官网)[https://cloud.zilliz.com.cn/orgs/org-qgyozwourrntbtomshnoof/projects/MA==/clusters]<br>
+(zilliz向量搜索和查询)[https://docs.zilliz.com.cn/docs/search-and-query]<br>
+
