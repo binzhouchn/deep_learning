@@ -39,3 +39,4 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 (官网)[https://cloud.zilliz.com.cn/orgs/org-qgyozwourrntbtomshnoof/projects/MA==/clusters]<br>
 (zilliz使用文档)[https://docs.zilliz.com.cn/docs/create-cluster]<br>
 
+评论：不太好用
