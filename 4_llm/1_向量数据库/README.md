@@ -15,23 +15,26 @@ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.16.2
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms4g -Xmx8g" --privileged=true -v /Users/zhoubin/es_docker/data:/usr/share/elasticsearch/data -v /Users/zhoubin/es_docker/plugins:/usr/share/elasticsearch/plugins -v /Users/zhoubin/es_docker/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml  -v /Users/zhoubin/es_docker/config/stopwords:/usr/share/elasticsearch/config/stopwords -v /Users/zhoubin/es_docker/config/synonyms:/usr/share/elasticsearch/config/synonyms docker.elastic.co/elasticsearch/elasticsearch:7.16.2
 ```
 
-## 2. Milvus
+## 2. Faiss
+
+## 3. Milvus
 
 [Install Milvus Standalone with Docker Compose](https://milvus.io/docs/install_standalone-docker.md)<br>
 [milvus官方文档](https://milvus.io/docs/example_code.md)<br>
 
-## 3. Pinecone
+## 4. Pinecone
 
 [官网](https://app.pinecone.io/organizations/-NbIxSm2UEI-1xS_DH7O/projects/gcp-starter:8f2dc48/indexes)<br>
 [api_key和environment](https://app.pinecone.io/organizations/-NbIxSm2UEI-1xS_DH7O/projects/gcp-starter:8f2dc48/keys)<br>
 [Pinecone使用文档](https://docs.pinecone.io/reference/query)<br>
 
-## 4. pgvector
+## 5. pgvector
+
+[pgvector github网址](https://github.com/pgvector/pgvector#docker)<br>
+[pgvector-python github网址](https://github.com/pgvector/pgvector-python/blob/master/examples/sentence_embeddings.py)<br>
 
 
-
-
-## 5. 云服务zilliz(背后是milvus数据库)
+## 6. 云服务zilliz(背后是milvus数据库)
 
 (官网)[https://cloud.zilliz.com.cn/orgs/org-qgyozwourrntbtomshnoof/projects/MA==/clusters]<br>
 (zilliz使用文档)[https://docs.zilliz.com.cn/docs/create-cluster]<br>
