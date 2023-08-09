@@ -17,8 +17,8 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 ## 2. Milvus
 
-
-
+[Install Milvus Standalone with Docker Compose](https://milvus.io/docs/install_standalone-docker.md)<br>
+[milvus官方文档](https://milvus.io/docs/example_code.md)<br>
 
 ## 3. Pinecone
 
@@ -26,15 +26,12 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 [api_key和environment](https://app.pinecone.io/organizations/-NbIxSm2UEI-1xS_DH7O/projects/gcp-starter:8f2dc48/keys)<br>
 [Pinecone使用文档](https://docs.pinecone.io/reference/query)<br>
 
-
-
-
 ## 4. pgvector
 
 
 
 
-## 5. 云服务zilliz
+## 5. 云服务zilliz(背后是milvus数据库)
 
 (官网)[https://cloud.zilliz.com.cn/orgs/org-qgyozwourrntbtomshnoof/projects/MA==/clusters]<br>
 (zilliz使用文档)[https://docs.zilliz.com.cn/docs/create-cluster]<br>
