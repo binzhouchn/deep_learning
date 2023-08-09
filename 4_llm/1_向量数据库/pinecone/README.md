@@ -118,3 +118,6 @@ xc
  'namespace': ''}
 '''
 ```
+
+
+### 具体可看/Users/zhoubin/PycharmProjects/temp/ChatLLM目录下生成向量并使用向量数据库pinecone.ipynb文件
