@@ -22,8 +22,9 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 ## 3. Pinecone
 
-
-
+[官网](https://app.pinecone.io/organizations/-NbIxSm2UEI-1xS_DH7O/projects/gcp-starter:8f2dc48/indexes)<br>
+[api_key和environment](https://app.pinecone.io/organizations/-NbIxSm2UEI-1xS_DH7O/projects/gcp-starter:8f2dc48/keys)<br>
+[Pinecone使用文档](https://docs.pinecone.io/reference/query)<br>
 
 
 
@@ -36,5 +37,5 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 ## 5. 云服务zilliz
 
 (官网)[https://cloud.zilliz.com.cn/orgs/org-qgyozwourrntbtomshnoof/projects/MA==/clusters]<br>
-(zilliz向量搜索和查询)[https://docs.zilliz.com.cn/docs/search-and-query]<br>
+(zilliz使用文档)[https://docs.zilliz.com.cn/docs/create-cluster]<br>
 
