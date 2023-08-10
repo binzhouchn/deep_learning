@@ -17,6 +17,9 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 ## 2. Faiss
 
+[faiss的python接口使用](https://www.ngui.cc/zz/1772454.html?action=onClick)<br>
+[faiss tutorial github](https://github.com/facebookresearch/faiss/tree/main/tutorial/python)<br>
+
 ## 3. Milvus
 
 [Install Milvus Standalone with Docker Compose](https://milvus.io/docs/install_standalone-docker.md)<br>
@@ -32,7 +35,6 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 
 [pgvector github网址](https://github.com/pgvector/pgvector#docker)<br>
 [pgvector-python github网址](https://github.com/pgvector/pgvector-python/blob/master/examples/sentence_embeddings.py)<br>
-
 
 ## 6. 云服务zilliz(背后是milvus数据库)
 
