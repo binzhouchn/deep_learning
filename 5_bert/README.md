@@ -12,7 +12,9 @@
 
 [**6. bert DIY**](#bert_diy)
 
-[**7. 遇到的问题**](#遇到的问题)
+[**7. Whole Word Masking**](#wwm)
+
+[**遇到的问题**](#遇到的问题)
 
 
 ---
@@ -189,6 +191,14 @@ python -u run_classifier.py \
 修改model_fn_builder和里面的create_model，其中create_model中output_layer后面可以自己接其他的层比如CRF层然后再改一下loss的计算方式或者不改<br>
 bert create_model中最后一层其实就是Dense层和log_loss，我们可以直接用封装好的Dense不需要像源码自己写
 
+### wwm
+
+[Whole Word Masking解读链接](https://blog.csdn.net/qq_40691189/article/details/125821262)<br>
+数据示例（方便理解）<br>
+原始文本： 使用语言模型来预测下一个词的probability 。<br>
+分词文本： 使用 语言 模型 来 预测 下 一个 词 的 probability 。<br>
+原始Mask输入(mlm)： 使 用 语 言 [MASK] 型 来 [MASK] 测 下 一 个 词 的 pro [MASK] ##lity 。<br>
+全词Mask输入(wwm)： 使 用 语 言 [MASK] [MASK] 来 [MASK] [MASK] 下 一 个 词 的 [MASK] [MASK] [MASK] 。<br>
 
 
 
