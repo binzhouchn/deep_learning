@@ -24,6 +24,8 @@
 
 [**12. pytorch删除一层网络**](#pytorch删除一层网络)
 
+[**13. Focal Loss with alpha**](#focal_loss)
+
 ---
 
 ## 得到模型参数数量
@@ -467,6 +469,45 @@ SentenceTransformer(
 
 '''
 ```
+
+### focal_loss
+
+```python
+import torch
+
+class MultiClassFocalLossWithAlpha(nn.Module):
+    def __init__(self, alpha=[0.2, 0.3, 0.5], gamma=2, reduction='mean'):
+        """
+        :param alpha: 权重系数列表，三分类中第0类权重0.2，第1类权重0.3，第2类权重0.5
+        :param gamma: 困难样本挖掘的gamma
+        :param reduction:
+        """
+        super(MultiClassFocalLossWithAlpha, self).__init__()
+        self.alpha = torch.tensor(alpha).to(device)
+        self.gamma = gamma
+        self.reduction = reduction
+
+    def forward(self, pred, target):
+        alpha = self.alpha[target]  # 为当前batch内的样本，逐个分配类别权重，shape=(bs), 一维向量
+        log_softmax = torch.log_softmax(pred, dim=1) # 对模型裸输出做softmax再取log, shape=(bs, 3)
+        logpt = torch.gather(log_softmax, dim=1, index=target.view(-1, 1))  # 取出每个样本在类别标签位置的log_softmax值, shape=(bs, 1)
+        logpt = logpt.view(-1)  # 降维，shape=(bs)
+        ce_loss = -logpt  # 对log_softmax再取负，就是交叉熵了
+        pt = torch.exp(logpt)  #对log_softmax取exp，把log消了，就是每个样本在类别标签位置的softmax值了，shape=(bs)
+        focal_loss = alpha * (1 - pt) ** self.gamma * ce_loss  # 根据公式计算focal loss，得到每个样本的loss值，shape=(bs)
+        if self.reduction == "mean":
+            return torch.mean(focal_loss)
+        if self.reduction == "sum":
+            return torch.sum(focal_loss)
+        return focal_loss
+
+#[star]训练,prob1+prob2mul保费多分类focal_loss
+weights = [x/sum([1,5,5,5,5,200]) for x in [1,5,5,5,5,200]] #6类标签的权重，数量越少的标签设置权重越大
+loss_fn = MultiClassFocalLossWithAlpha(alpha=weights).to(device)
+loss_fn(pred,target) # 以batch_size=2为例 pred = [[0.2,0.4,0.1,0.15,0.13,0.02],[0.1,0.14,0.53,0.07,0.11,0.05]] target = [1,3]
+```
+
+
 ---
 
 参考网址：
