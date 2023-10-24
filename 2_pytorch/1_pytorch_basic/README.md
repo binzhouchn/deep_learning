@@ -26,6 +26,8 @@
 
 [**13. Focal Loss with alpha**](#focal_loss)
 
+[**14. 清空显存方法**](#清空显存)
+
 ---
 
 ## 得到模型参数数量
@@ -507,6 +509,14 @@ loss_fn = MultiClassFocalLossWithAlpha(alpha=weights).to(device)
 loss_fn(pred,target) # 以batch_size=2为例 pred = [[0.2,0.4,0.1,0.15,0.13,0.02],[0.1,0.14,0.53,0.07,0.11,0.05]] target = [1,3]
 ```
 
+### 清空显存
+
+```python
+def clean_memory():
+    gc.collect()
+    ctypes.CDLL("libc.so.6").malloc_trim(0)
+    torch.cuda.empty_cache()
+```
 
 ---
 
