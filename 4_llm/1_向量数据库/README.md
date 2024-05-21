@@ -18,6 +18,8 @@ docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=
 ## 2. Faiss
 
 [faiss的python接口使用](https://www.ngui.cc/zz/1772454.html?action=onClick)<br>
+[Faiss入门及应用经验记录](https://zhuanlan.zhihu.com/p/357414033)<br>
+[向量数据库-Faiss详解](https://blog.csdn.net/HAXIMOF/article/details/134946519)<br>
 [faiss tutorial github](https://github.com/facebookresearch/faiss/tree/main/tutorial/python)<br>
 
 ## 3. Milvus
