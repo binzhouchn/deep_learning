@@ -372,3 +372,9 @@ print(f"query after delete by expr=`{expr}` -> result: {result}\n")
 print(fmt.format("Drop collection `hello_milvus`"))
 client.drop_collection("hello_milvus")
 ```
+
+
+
+
+附录：<br>
+https://milvus.io/docs/install_standalone-docker.md<br>
