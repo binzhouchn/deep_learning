@@ -38,17 +38,17 @@ class BaseModel:
 
 class OpenAIChat(BaseModel):
     def __init__(self, path: str = '', model: str = "glm-4") -> None:
+        from openai import OpenAI
         super().__init__(path)
         self.model = model
-
-    def chat(self, prompt: str, history: List[dict], content: str) -> str:
-        from openai import OpenAI
-        client = OpenAI(
+        self.client = OpenAI(
             api_key="ee748868eb25227724f960e69904f7b2.xsEtVM7S07AqFK9",#n
             base_url="https://open.bigmodel.cn/api/paas/v4/"
         )
+
+    def chat(self, prompt: str, history: List[dict], content: str) -> str:
         history.append({'role': 'user', 'content': PROMPT_TEMPLATE['RAG_PROMPT_TEMPALTE'].format(question=prompt, context=content)})
-        response = client.chat.completions.create(
+        response = self.client.chat.completions.create(
             model=self.model,
             messages=history,
             top_p=0.7,
@@ -72,3 +72,6 @@ class InternLMChat(BaseModel):
         self.tokenizer = AutoTokenizer.from_pretrained(self.path, trust_remote_code=True)
         self.model = AutoModelForCausalLM.from_pretrained(self.path, torch_dtype=torch.float16, trust_remote_code=True).cuda()
 
+# if __name__ == '__main__':
+#     a = OpenAIChat()
+#     print(a.chat('周杰伦是哪一年出生的？',[],''))
