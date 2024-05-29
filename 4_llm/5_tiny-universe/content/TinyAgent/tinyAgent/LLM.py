@@ -29,6 +29,6 @@ class InternLM2Chat(BaseModel):
         response, history = self.model.chat(self.tokenizer, prompt, history, temperature=0.1, meta_instruction=meta_instruction)
         return response, history
     
-# if __name__ == '__main__':
-#     model = InternLM2Chat('/root/share/model_repos/internlm2-chat-7b')
-#     print(model.chat('Hello', []))
+if __name__ == '__main__':
+    model = InternLM2Chat('/Users/zhoubin/pretrained/internlm2-chat-7b')
+    print(model.chat('你背后用的是什么模型啊', []))

@@ -44,7 +44,7 @@ class OpenAIChat(BaseModel):
     def chat(self, prompt: str, history: List[dict], content: str) -> str:
         from openai import OpenAI
         client = OpenAI(
-            api_key="ee748868eb25227724f960e69904f7b2.xsEtVM7S07AqFK9n",
+            api_key="ee748868eb25227724f960e69904f7b2.xsEtVM7S07AqFK9",#n
             base_url="https://open.bigmodel.cn/api/paas/v4/"
         )
         history.append({'role': 'user', 'content': PROMPT_TEMPLATE['RAG_PROMPT_TEMPALTE'].format(question=prompt, context=content)})
