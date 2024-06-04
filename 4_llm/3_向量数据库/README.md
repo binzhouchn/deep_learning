@@ -1,6 +1,15 @@
 # 向量数据库
 
-## 1. Elasticsearch
+## 1. Faiss
+
+[faiss的python接口使用](https://www.ngui.cc/zz/1772454.html?action=onClick)<br>
+[Faiss入门及应用经验记录](https://zhuanlan.zhihu.com/p/357414033)<br>
+[向量数据库-Faiss详解](https://blog.csdn.net/HAXIMOF/article/details/134946519)<br>
+[faiss tutorial github](https://github.com/facebookresearch/faiss/tree/main/tutorial/python)<br>
+
+具体使用bce embedding然后放入faiss向量库，并且查询的样例详见faiss文件夹。
+
+## 2. Elasticsearch
 
 ```shell
 #1.docker安装
@@ -14,13 +23,6 @@ docker pull docker.elastic.co/elasticsearch/elasticsearch:7.16.2
 #4.启动docker
 docker run --name elasticsearch -p 9200:9200 -p 9300:9300 -d -e "discovery.type=single-node" -e ES_JAVA_OPTS="-Xms4g -Xmx8g" --privileged=true -v /Users/zhoubin/es_docker/data:/usr/share/elasticsearch/data -v /Users/zhoubin/es_docker/plugins:/usr/share/elasticsearch/plugins -v /Users/zhoubin/es_docker/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml  -v /Users/zhoubin/es_docker/config/stopwords:/usr/share/elasticsearch/config/stopwords -v /Users/zhoubin/es_docker/config/synonyms:/usr/share/elasticsearch/config/synonyms docker.elastic.co/elasticsearch/elasticsearch:7.16.2
 ```
-
-## 2. Faiss
-
-[faiss的python接口使用](https://www.ngui.cc/zz/1772454.html?action=onClick)<br>
-[Faiss入门及应用经验记录](https://zhuanlan.zhihu.com/p/357414033)<br>
-[向量数据库-Faiss详解](https://blog.csdn.net/HAXIMOF/article/details/134946519)<br>
-[faiss tutorial github](https://github.com/facebookresearch/faiss/tree/main/tutorial/python)<br>
 
 ## 3. Milvus
 

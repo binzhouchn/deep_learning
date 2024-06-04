@@ -112,7 +112,7 @@ def get_pred(self, data, max_length, max_gen, prompt_format, device, out_path):
             with open(out_path, "a", encoding="utf-8") as f:
                 json.dump({"pred": pred, "answers": json_obj["answers"], "all_classes": json_obj["all_classes"], "length": json_obj["length"]}, f, ensure_ascii=False)
                 f.write('\n')
-``` 
+```
 
 - 有的同学可能会问,为啥要整这么一大串,直接用`model.chat()`不香吗?? 
 - Okey!这个函数就告诉了你答案。原因就在于截断策略,对于模型而言,尤其是制定了输入的长度,如果使用阶段命令则其会在输入的末尾进行阶段,但由于引导性`prompt`的存在,在`inputs`的两端均有关键信息,故需要对两端的信息进行保留,对中间部位进行截断操作,才能最大限度地抱持输出效果!

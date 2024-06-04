@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional, Tuple, Union
 import json5
 
-from tinyAgent.LLM import InternLM2Chat, OpenAIChat
+from tinyAgent.LLM import InternLM2Chat
 from tinyAgent.tool import Tools
 
 
@@ -30,8 +30,7 @@ class Agent:
         self.path = path
         self.tool = Tools()
         self.system_prompt = self.build_system_input()
-        # self.model = InternLM2Chat(path)
-        self.model = OpenAIChat()
+        self.model = InternLM2Chat(path)
 
     def build_system_input(self):
         tool_descs, tool_names = [], []
@@ -73,6 +72,6 @@ class Agent:
         return response, his
 
 # if __name__ == '__main__':
-#     agent = Agent('/root/share/model_repos/internlm2-chat-7b')
+#     agent = Agent('/root/share/model_repos/internlm2-chat-1_8b')
 #     prompt = agent.build_system_input()
 #     print(prompt)
