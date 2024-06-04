@@ -1,11 +1,10 @@
-# Copyright (c) OpenMMLab. All rights reserved.
 import hashlib
 import os
 
-import fitz
+import fitz #1.24.1
 import pandas as pd
 import textract
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup #4.8.2
 from loguru import logger
 
 

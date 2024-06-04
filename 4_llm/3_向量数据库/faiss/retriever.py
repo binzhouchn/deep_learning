@@ -1,9 +1,8 @@
-# Copyright (c) OpenMMLab. All rights reserved.
 """extract feature and search with user query."""
 import os
 import time
 
-import numpy as np
+import numpy as np #1.26.4
 import pytoml
 from BCEmbedding.tools.langchain import BCERerank
 from langchain.retrievers import ContextualCompressionRetriever
@@ -11,7 +10,7 @@ from langchain.vectorstores.faiss import FAISS as Vectorstore
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores.utils import DistanceStrategy
 from loguru import logger
-from sklearn.metrics import precision_recall_curve
+from sklearn.metrics import precision_recall_curve #1.4.1.post1
 
 from file_operation import FileOperation
 

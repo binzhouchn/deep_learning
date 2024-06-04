@@ -31,8 +31,6 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 from loguru import logger
 
-
-
 from file_operation import FileName, FileOperation
 from retriever import CacheRetriever, Retriever
 
@@ -399,9 +397,9 @@ class FeatureStore:
 if __name__ == '__main__':
 
     class args:
-        config_path = '/Users/zhoubin/PycharmProjects/deep_learning/4_llm/3_向量数据库/faiss/config.ini'
-        repo_dir = '/Users/zhoubin/PycharmProjects/deep_learning/4_llm/3_向量数据库/faiss/repodir'
-        work_dir = '/Users/zhoubin/PycharmProjects/deep_learning/4_llm/3_向量数据库/faiss/workdir'
+        config_path = './faiss/config.ini'
+        repo_dir = './faiss/repodir'
+        work_dir = './faiss/workdir'
 
     cache = CacheRetriever(config_path=args.config_path)
     fs_init = FeatureStore(embeddings=cache.embeddings,
