@@ -18,6 +18,7 @@
 
 [**9. 知识蒸馏 Teacher&Student**](#知识蒸馏)
 
+[**10. word2vec**](#word2vec)
 
 [**深度学习面试准备网址**](#深度学习面试准备网址)
 
@@ -96,6 +97,11 @@ Attention的出现就是为了两个目的：<br>
 如上图所示，所谓联合训练，指的是在离线训练Student模型的时候，增加复杂Teacher模型来辅助Student，两者同时进行训练，是一种训练过程中的辅导。从网络结构来说，Teacher和Student模型共享底层特征Embedding层，Teacher网络具有层深更深、神经元更多的MLP隐层，而Student则由较少层深及神经元个数的MLP隐层构成，两者的MLP部分参数各自私有。对于所有训练数据，会同时训练Teacher和Student网络，对于Teacher网络来说，就是常规的训练过程，以交叉熵作为Teacher的损失函数。而对于Student网络来说，损失函数由两个部分构成，一个子项是交叉熵，这是常规的损失函数，它促使Student网络去拟合训练数据；另外一个子项则迫使Student输出的Logits去拟合Teacher输出的Logits，所谓蒸馏，就体现在这个损失函数子项，通过这种手段让Teacher网络增强Student网络的模型泛化能力。也即：
 ![知识蒸馏2](pic/知识蒸馏2.png)<br>
 
+## word2vec
+
+[word2vec算法 + negative sampling](https://blog.csdn.net/liuweiyuxiang/article/details/94396228)<br>
+[word2vec训练优化之Negative Sampling](https://download.csdn.net/blog/column/11373790/122231548)<br>
+[word2vec分层softmax（被负采样取代，不用看了）]()<br>
 
 ---
 
